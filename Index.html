@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp Cưới – Huyền Trân & Anh Kiệt</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --rose: #c8697a;
+            --blush: #f2c4ce;
+            --petal: #fce8ed;
+            --cream: #fdf6f0;
+            --gold: #c9a96e;
+            --deeprose: #9b3a4d;
+            --text: #4a2030;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--cream);
+            font-family: 'EB Garamond', serif;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ── Noise texture overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: .5;
+        }
+
+        /* ── SVG Rose decorations ── */
+        .rose-svg {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(160deg, #fff5f7 0%, #fdf0f4 40%, #fce8ed 100%);
+            padding: 60px 20px;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, var(--cream));
+        }
+
+        /* Corner roses */
+        .corner {
+            position: absolute;
+            width: 220px;
+            opacity: .55;
+        }
+
+        .corner-tl {
+            top: -10px;
+            left: -10px;
+            transform: rotate(0deg);
+        }
+
+        .corner-tr {
+            top: -10px;
+            right: -10px;
+            transform: scaleX(-1);
+        }
+
+        .corner-bl {
+            bottom: -10px;
+            left: -10px;
+            transform: scaleY(-1);
+        }
+
+        .corner-br {
+            bottom: -10px;
+            right: -10px;
+            transform: scale(-1);
+        }
+
+        .hero-badge {
+            font-family: 'EB Garamond', serif;
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--rose);
+            border: 1px solid var(--blush);
+            padding: 6px 22px;
+            border-radius: 30px;
+            margin-bottom: 32px;
+            animation: fadeDown .8s ease both;
+        }
+
+        .hero-pre {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15px;
+            font-style: italic;
+            letter-spacing: 2px;
+            color: var(--rose);
+            margin-bottom: 12px;
+            animation: fadeDown .9s .1s ease both;
+        }
+
+        .hero-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(52px, 10vw, 88px);
+            color: var(--deeprose);
+            line-height: 1.1;
+            text-align: center;
+            filter: drop-shadow(0 2px 12px rgba(155, 58, 77, .15));
+            animation: fadeDown 1s .2s ease both;
+        }
+
+        .hero-ampersand {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(36px, 6vw, 56px);
+            color: var(--gold);
+            display: block;
+            animation: fadeDown 1s .3s ease both;
+        }
+
+        .hero-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 28px 0;
+            animation: fadeDown 1s .4s ease both;
+        }
+
+        .hero-divider span {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--blush));
+        }
+
+        .hero-divider span:last-child {
+            transform: scaleX(-1);
+        }
+
+        .hero-divider .diamond {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+
+        .hero-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(18px, 4vw, 28px);
+            font-weight: 300;
+            letter-spacing: 6px;
+            color: var(--rose);
+            text-transform: uppercase;
+            animation: fadeDown 1s .5s ease both;
+        }
+
+        .hero-lunar {
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            color: #b08090;
+            margin-top: 6px;
+            animation: fadeDown 1s .55s ease both;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            animation: fadeDown 1.2s .8s ease both;
+            color: var(--blush);
+            font-size: 11px;
+            letter-spacing: 2px;
+        }
+
+        .scroll-hint .arrow {
+            width: 1px;
+            height: 36px;
+            background: var(--blush);
+            animation: scrollPulse 1.6s ease-in-out infinite;
+        }
+
+        /* ── SECTION BASE ── */
+        section {
+            padding: 72px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .section-heading {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(34px, 7vw, 52px);
+            color: var(--deeprose);
+            text-align: center;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .thin-line {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--blush), transparent);
+            margin: 0 auto 36px;
+        }
+
+        /* ── PARENTS ── */
+        .parents-section {
+            background: linear-gradient(180deg, var(--cream) 0%, #fff8fb 100%);
+        }
+
+        .parents-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 0 24px;
+            max-width: 680px;
+            width: 100%;
+            align-items: start;
+        }
+
+        .family-card {
+            text-align: center;
+            padding: 28px 16px;
+        }
+
+        .family-label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .family-parents {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--deeprose);
+            line-height: 1.9;
+            text-transform: uppercase;
+        }
+
+        .family-address {
+            font-size: 13px;
+            color: #9a6070;
+            line-height: 1.7;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .parents-divider {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 0;
+        }
+
+        .parents-divider .vline {
+            width: 1px;
+            height: 60px;
+            background: var(--blush);
+        }
+
+        .parents-divider .heart {
+            color: var(--rose);
+            font-size: 18px;
+        }
+
+        /* ── COUPLE ── */
+        .couple-section {
+            background: linear-gradient(160deg, #fff0f4 0%, #fce8ed 50%, #fdf6f4 100%);
+        }
+
+        .couple-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            max-width: 520px;
+            width: 100%;
+        }
+
+        .bride-name,
+        .groom-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(44px, 9vw, 72px);
+            color: var(--deeprose);
+            text-align: center;
+            filter: drop-shadow(0 2px 8px rgba(155, 58, 77, .12));
+        }
+
+        .role-badge {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+            margin-top: -6px;
+            margin-bottom: 12px;
+        }
+
+        .couple-and {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(28px, 5vw, 40px);
+            color: var(--gold);
+            margin: 4px 0;
+        }
+
+        /* ── TIMELINE ── */
+        .timeline-section {
+            background: var(--cream);
+        }
+
+        .timeline {
+            max-width: 560px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--blush) 20%, var(--blush) 80%, transparent);
+            transform: translateX(-50%);
+        }
+
+        .tl-item {
+            display: grid;
+            grid-template-columns: 1fr 40px 1fr;
+            align-items: center;
+            gap: 0;
+            padding: 20px 0;
+        }
+
+        .tl-left {
+            text-align: right;
+            padding-right: 24px;
+        }
+
+        .tl-right {
+            text-align: left;
+            padding-left: 24px;
+        }
+
+        .tl-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--rose);
+            border: 3px solid var(--petal);
+            box-shadow: 0 0 0 2px var(--rose);
+            margin: 0 auto;
+        }
+
+        .tl-label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+
+        .tl-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--deeprose);
+        }
+
+        .tl-sub {
+            font-size: 12px;
+            color: #b08090;
+            margin-top: 2px;
+        }
+
+        .tl-note {
+            font-style: italic;
+            font-size: 13px;
+            color: var(--rose);
+        }
+
+        /* ── VENUE ── */
+        .venue-section {
+            background: linear-gradient(180deg, #fff5f7 0%, var(--cream) 100%);
+        }
+
+        .venue-card {
+            max-width: 480px;
+            width: 100%;
+            border: 1px solid var(--blush);
+            padding: 44px 36px;
+            text-align: center;
+            position: relative;
+            background: rgba(255, 255, 255, .8);
+            backdrop-filter: blur(4px);
+        }
+
+        .venue-card::before,
+        .venue-card::after {
+            content: '✦';
+            position: absolute;
+            font-size: 14px;
+            color: var(--gold);
+        }
+
+        .venue-card::before {
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .venue-card::after {
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .venue-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 42px;
+            color: var(--deeprose);
+            margin-bottom: 8px;
+        }
+
+        .venue-address {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            color: var(--rose);
+            line-height: 1.8;
+        }
+
+        .venue-time {
+            margin-top: 20px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .venue-big-time {
+            font-size: clamp(28px, 6vw, 44px);
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            color: var(--deeprose);
+            letter-spacing: 4px;
+            margin-top: 4px;
+        }
+
+        .venue-lunar {
+            font-size: 13px;
+            color: #b08090;
+            font-style: italic;
+            margin-top: 6px;
+        }
+
+        /* ── CLOSING ── */
+        .closing-section {
+            background: linear-gradient(160deg, #fce8ed 0%, #fdf0f4 100%);
+            text-align: center;
+            padding-bottom: 80px;
+        }
+
+        .host-label {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .host-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 42px;
+            color: var(--deeprose);
+        }
+
+        .closing-wish {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            font-style: italic;
+            color: var(--rose);
+            max-width: 380px;
+            line-height: 1.9;
+            margin: 28px auto 0;
+        }
+
+        .kính-mời {
+            font-family: 'Great Vibes', cursive;
+            font-size: 48px;
+            color: var(--deeprose);
+            margin-top: 32px;
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scrollPulse {
+
+            0%,
+            100% {
+                opacity: .3;
+                transform: scaleY(.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleY(1);
+            }
+        }
+
+        @keyframes petalFloat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: .8;
+            }
+
+            100% {
+                transform: translateY(-120px) rotate(30deg);
+                opacity: 0;
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity .8s ease, transform .8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Floating petals */
+        .petal {
+            position: fixed;
+            bottom: -20px;
+            width: 12px;
+            height: 16px;
+            border-radius: 50% 0 50% 0;
+            background: var(--blush);
+            pointer-events: none;
+            z-index: 1;
+            animation: petalFloat linear infinite;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 520px) {
+            .parents-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .parents-divider {
+                flex-direction: row;
+            }
+
+            .parents-divider .vline {
+                width: 60px;
+                height: 1px;
+            }
+
+            .timeline::before {
+                left: 16px;
+            }
+
+            .tl-item {
+                grid-template-columns: 20px 1fr;
+            }
+
+            .tl-left {
+                display: none;
+            }
+
+            .tl-right {
+                padding-left: 18px;
+            }
+
+            .tl-dot {
+                margin: 0;
+            }
+
+            .venue-card {
+                padding: 32px 20px;
+            }
+        }
+
+
+
+
+        /* ── SLIDESHOW ── */
+        .photo-section {
+            background: linear-gradient(160deg, #fdf6f0 0%, #fff0f4 50%, #fdf6f0 100%);
+        }
+
+        .slideshow-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .slideshow {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border: 2px solid var(--blush);
+            background: #fff;
+            box-shadow: 0 8px 40px rgba(155, 58, 77, .15);
+        }
+
+        .slide {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: slideFadeIn .6s ease;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide img {
+            width: 100%;
+            object-fit: cover;
+            object-position: top;
+            aspect-ratio: 3/4;
+            display: block;
+        }
+
+        .slide-caption {
+            font-family: 'Great Vibes', cursive;
+            font-size: 26px;
+            color: var(--deeprose);
+            text-align: center;
+            padding: 14px 12px 16px;
+            border-top: 1px solid var(--petal);
+            width: 100%;
+            background: rgba(255, 255, 255, .95);
+        }
+
+        .slide-btn {
+            position: absolute;
+            top: 44%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, .85);
+            border: 1px solid var(--blush);
+            color: var(--rose);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s;
+            z-index: 10;
+        }
+
+        .slide-btn:hover {
+            background: var(--petal);
+        }
+
+        .slide-prev {
+            left: -18px;
+        }
+
+        .slide-next {
+            right: -18px;
+        }
+
+        .slide-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--blush);
+            cursor: pointer;
+            transition: background .3s, transform .3s;
+        }
+
+        .dot.active {
+            background: var(--rose);
+            transform: scale(1.3);
+        }
+
+        @keyframes slideFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slider-wrap {
+            position: relative;
+        }
+
+        .slider {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            cursor: grab;
+        }
+
+        .slider.dragging {
+            cursor: grabbing;
+            scroll-behavior: auto;
+        }
+
+        .slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .card {
+            flex: 0 0 300px;
+            height: 200px;
+            background: #ddd;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* nút */
+        .btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: black;
+            color: white;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <section class="hero">
+        <!-- Corner rose SVGs -->
+        <svg class="corner corner-tl" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity=".9" stroke="#c8697a" stroke-width="1.2" fill="none">
+                <ellipse cx="80" cy="80" rx="38" ry="28" transform="rotate(-25 80 80)" />
+                <ellipse cx="80" cy="80" rx="28" ry="20" transform="rotate(15 80 80)" />
+                <ellipse cx="80" cy="80" rx="20" ry="14" transform="rotate(55 80 80)" />
+                <ellipse cx="80" cy="80" rx="12" ry="8" />
+                <path d="M80 108 Q70 140 55 170" />
+                <path d="M55 130 Q72 128 80 108" />
+                <ellipse cx="58" cy="136" rx="18" ry="12" transform="rotate(-40 58 136)" />
+                <path d="M30 30 Q60 50 80 80" />
+                <ellipse cx="40" cy="50" rx="16" ry="10" transform="rotate(20 40 50)" />
+                <path d="M120 20 Q100 50 80 80" />
+                <ellipse cx="110" cy="38" rx="18" ry="10" transform="rotate(-30 110 38)" />
+            </g>
+        </svg>
+        <svg class="corner corner-tr" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity=".9" stroke="#c8697a" stroke-width="1.2" fill="none">
+                <ellipse cx="80" cy="80" rx="38" ry="28" transform="rotate(-25 80 80)" />
+                <ellipse cx="80" cy="80" rx="28" ry="20" transform="rotate(15 80 80)" />
+                <ellipse cx="80" cy="80" rx="20" ry="14" transform="rotate(55 80 80)" />
+                <ellipse cx="80" cy="80" rx="12" ry="8" />
+                <path d="M80 108 Q70 140 55 170" />
+                <path d="M55 130 Q72 128 80 108" />
+                <ellipse cx="58" cy="136" rx="18" ry="12" transform="rotate(-40 58 136)" />
+                <path d="M30 30 Q60 50 80 80" />
+                <ellipse cx="40" cy="50" rx="16" ry="10" transform="rotate(20 40 50)" />
+                <path d="M120 20 Q100 50 80 80" />
+                <ellipse cx="110" cy="38" rx="18" ry="10" transform="rotate(-30 110 38)" />
+            </g>
+        </svg>
+        <svg class="corner corner-bl" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity=".9" stroke="#c8697a" stroke-width="1.2" fill="none">
+                <ellipse cx="80" cy="80" rx="38" ry="28" transform="rotate(-25 80 80)" />
+                <ellipse cx="80" cy="80" rx="28" ry="20" transform="rotate(15 80 80)" />
+                <ellipse cx="80" cy="80" rx="20" ry="14" transform="rotate(55 80 80)" />
+                <ellipse cx="80" cy="80" rx="12" ry="8" />
+                <path d="M80 108 Q70 140 55 170" />
+                <path d="M55 130 Q72 128 80 108" />
+                <ellipse cx="58" cy="136" rx="18" ry="12" transform="rotate(-40 58 136)" />
+            </g>
+        </svg>
+        <svg class="corner corner-br" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g opacity=".9" stroke="#c8697a" stroke-width="1.2" fill="none">
+                <ellipse cx="80" cy="80" rx="38" ry="28" transform="rotate(-25 80 80)" />
+                <ellipse cx="80" cy="80" rx="28" ry="20" transform="rotate(15 80 80)" />
+                <ellipse cx="80" cy="80" rx="20" ry="14" transform="rotate(55 80 80)" />
+                <ellipse cx="80" cy="80" rx="12" ry="8" />
+                <path d="M80 108 Q70 140 55 170" />
+                <path d="M55 130 Q72 128 80 108" />
+                <ellipse cx="58" cy="136" rx="18" ry="12" transform="rotate(-40 58 136)" />
+            </g>
+        </svg>
+
+        <div class="hero-badge">✦ Thiệp Mời ✦</div>
+        <p class="hero-pre">Trân trọng kính mời</p>
+
+        <div class="hero-names">
+            Huyền Trân
+            <span class="hero-ampersand">& Anh Kiệt</span>
+        </div>
+
+        <div class="hero-divider">
+            <span></span>
+            <div class="diamond"></div>
+            <span></span>
+        </div>
+
+        <div class="hero-date">25 · 05 · 2026</div>
+        <div class="hero-lunar">Nhằm ngày 09 tháng 04 năm Bính Ngọ</div>
+
+        <div class="scroll-hint">
+            <span style="letter-spacing:3px;font-size:10px;color:#c8697a">Cuộn xuống</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ PARENTS ═══════════════ -->
+    <section class="parents-section reveal">
+        <p class="section-title">✦ Gia Đình ✦</p>
+        <h2 class="section-heading">Thông Báo Hỷ Sự</h2>
+        <div class="thin-line"></div>
+
+        <div class="parents-grid">
+            <!-- Nhà gái -->
+            <div class="family-card">
+                <div class="family-label">Nhà Gái — Cần Thơ</div>
+                <div class="family-parents">
+                    Ông PHAN VĂN ÚT<br>
+                    Bà NHÂM THỊ SƠN
+                </div>
+                <div class="family-address">
+                    Số nhà 144, Ấp Tân Thành<br>
+                    Xã Long Hưng, TP Cần Thơ
+                </div>
+            </div>
+
+            <div class="parents-divider">
+                <div class="vline"></div>
+                <div class="heart">♡</div>
+                <div class="vline"></div>
+            </div>
+
+            <!-- Nhà trai -->
+            <div class="family-card">
+                <div class="family-label">Nhà Trai — Tây Ninh</div>
+                <div class="family-parents">
+                    Ông NGUYỄN VĂN LÊN<br>
+                    Bà TRẦN THỊ LAN
+                </div>
+                <div class="family-address">
+                    Tổ 10, Ấp Phước Kế<br>
+                    Xã Mỹ Lộc, Tỉnh Tây Ninh
+                </div>
+            </div>
+        </div>
+
+        <p
+            style="margin-top:36px; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:16px; color:var(--rose); text-align:center; max-width:420px; line-height:2;">
+            Trân trọng báo tin <strong>Lễ Vu Quy</strong> của con chúng tôi
+        </p>
+    </section>
+
+    <!-- ═══════════════ COUPLE ═══════════════ -->
+    <section class="couple-section reveal">
+        <p class="section-title">✦ Cô Dâu &amp; Chú Rể ✦</p>
+        <div class="thin-line"></div>
+
+        <div class="couple-wrap">
+            <div class="bride-name">Phan Thị Huyền Trân</div>
+            <div class="role-badge">Trưởng Nữ</div>
+
+            <div class="couple-and">và</div>
+
+            <div class="groom-name">Nguyễn Anh Kiệt</div>
+            <div class="role-badge">Út Nam</div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ TIMELINE ═══════════════ -->
+    <section class="timeline-section reveal">
+        <p class="section-title">✦ Chương Trình ✦</p>
+        <h2 class="section-heading">Lịch Trình Hôn Lễ</h2>
+        <div class="thin-line"></div>
+
+        <div class="timeline">
+            <div class="tl-item">
+                <div class="tl-left">
+                    <div class="tl-label">Ngày</div>
+                    <div class="tl-value">24 – 25 / 05</div>
+                    <div class="tl-sub">08 – 09 / 04 Bính Ngọ</div>
+                </div>
+                <div class="tl-dot"></div>
+                <div class="tl-right">
+                    <div class="tl-note">Lễ Vu Quy</div>
+                    <div class="tl-sub">Tư Gia</div>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-left">
+                    <div class="tl-label">Tiệc Rượu</div>
+                    <div class="tl-value">25 / 05 / 2026</div>
+                    <div class="tl-sub">09 tháng 04 Bính Ngọ</div>
+                </div>
+                <div class="tl-dot" style="background:var(--gold); box-shadow: 0 0 0 2px var(--gold);"></div>
+                <div class="tl-right">
+                    <div class="tl-note"
+                        style="font-size:20px; font-family:'Cormorant Garamond',serif; font-weight:600;">07 : 30</div>
+                    <div class="tl-sub">Sáng</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ VENUE ═══════════════ -->
+    <section class="venue-section reveal">
+        <p class="section-title">✦ Địa Điểm ✦</p>
+        <h2 class="section-heading">Nơi Tổ Chức</h2>
+        <div class="thin-line"></div>
+
+        <div class="venue-card">
+            <div class="venue-name">Tư Gia</div>
+            <div class="venue-address">
+                Số nhà 144, Ấp Tân Thành<br>
+                Xã Long Hưng, Thành Phố Cần Thơ
+            </div>
+            <div class="venue-time">Vào lúc</div>
+            <div class="venue-big-time">07 : 30</div>
+            <div
+                style="font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:600; color:var(--deeprose); letter-spacing:4px; margin-top:10px;">
+                25 · 05 · 2026
+            </div>
+            <div class="venue-lunar">Nhằm ngày 09 tháng 04 năm Bính Ngọ</div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════ PHOTOS ═══════════════ -->
+    <section class="photo-section reveal">
+        <p class="section-title">✦ Hình Ảnh ✦</p>
+        <h2 class="section-heading">Khoảnh Khắc Đẹp</h2>
+        <div class="thin-line"></div>
+
+        <div class="slider-wrap">
+            <button class="btn prev">‹</button>
+
+            <div class="slider" id="slider">
+                <div class="card">Ảnh 1</div>
+                <div class="card">Ảnh 2</div>
+                <div class="card">Ảnh 3</div>
+                <div class="card">Ảnh 4</div>
+            </div>
+
+            <button class="btn next">›</button>
+        </div>
+
+        <!-- Prev / Next -->
+        <button class="slide-btn slide-prev" onclick="moveSlide(-1)">&#8592;</button>
+        <button class="slide-btn slide-next" onclick="moveSlide(1)">&#8594;</button>
+
+        <!-- Dots -->
+        <div class="slide-dots">
+            <span class="dot active" onclick="goSlide(0)"></span>
+            <span class="dot" onclick="goSlide(1)"></span>
+            <span class="dot" onclick="goSlide(2)"></span>
+            <span class="dot" onclick="goSlide(3)"></span>
+        </div>
+        </div>
+    </section>
+
+    <script>
+        let current = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        let autoTimer = setInterval(() => moveSlide(1), 3500);
+
+        function showSlide(n) {
+            slides.forEach(s => s.classList.remove('active', 'prev'));
+            dots.forEach(d => d.classList.remove('active'));
+            current = (n + slides.length) % slides.length;
+            slides[current].classList.add('active');
+            dots[current].classList.add('active');
+        }
+        function moveSlide(dir) {
+            clearInterval(autoTimer);
+            autoTimer = setInterval(() => moveSlide(1), 3500);
+            showSlide(current + dir);
+        }
+        function goSlide(n) {
+            clearInterval(autoTimer);
+            autoTimer = setInterval(() => moveSlide(1), 3500);
+            showSlide(n);
+        }
+    </script>
+
+    <!-- ═══════════════ CLOSING ═══════════════ -->
+    <section class="closing-section reveal">
+        <p class="section-title">✦ Chủ Hôn ✦</p>
+        <div class="thin-line"></div>
+        <div class="host-label">Chủ Hôn</div>
+        <div class="host-name">Út – Sơn</div>
+
+        <p class="closing-wish">
+            Sự hiện diện của Quý Gia Đình<br>
+            chính là niềm hạnh phúc lớn nhất<br>
+            của đôi chúng tôi trong ngày trọng đại này.
+        </p>
+
+        <!-- Ornamental divider -->
+        <div style="display:flex;align-items:center;gap:16px;margin:36px 0;">
+            <div style="width:80px;height:1px;background:linear-gradient(to right,transparent,var(--blush))"></div>
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <path d="M20 4 C20 4 28 12 28 20 C28 28 20 36 20 36 C20 36 12 28 12 20 C12 12 20 4 20 4Z"
+                    stroke="#c8697a" stroke-width="1" fill="#fce8ed" />
+                <circle cx="20" cy="20" r="4" fill="#c8697a" />
+            </svg>
+            <div style="width:80px;height:1px;background:linear-gradient(to left,transparent,var(--blush))"></div>
+        </div>
+
+        <div class="kính-mời">Kính Mời !</div>
+
+        <p style="margin-top:48px; font-size:11px; letter-spacing:3px; color:var(--blush); text-transform:uppercase;">
+            ✦ Huyền Trân &amp; Anh Kiệt · 25.05.2026 ✦
+        </p>
+    </section>
+
+    <!-- Floating petals -->
+    <script>
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); }
+            });
+        }, { threshold: 0.12 });
+        reveals.forEach(r => observer.observe(r));
+
+        // Floating petals
+        function spawnPetal() {
+            const p = document.createElement('div');
+            p.className = 'petal';
+            const colors = ['#f2c4ce', '#fce8ed', '#e8aab8', '#f9d5de'];
+            p.style.cssText = `
+      left: ${Math.random() * 100}vw;
+      width: ${8 + Math.random() * 10}px;
+      height: ${10 + Math.random() * 12}px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      animation-duration: ${4 + Math.random() * 4}s;
+      animation-delay: ${Math.random() * 2}s;
+      opacity: ${0.4 + Math.random() * 0.5};
+      transform: rotate(${Math.random() * 360}deg);
+    `;
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 8000);
+        }
+        setInterval(spawnPetal, 700);
+
+        const slider = document.getElementById("slider");
+
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        // kéo chuột
+        slider.addEventListener("mousedown", (e) => {
+            isDown = true;
+            slider.classList.add("dragging");
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener("mouseleave", () => {
+            isDown = false;
+            slider.classList.remove("dragging");
+        });
+
+        slider.addEventListener("mouseup", () => {
+            isDown = false;
+            slider.classList.remove("dragging");
+        });
+
+        slider.addEventListener("mousemove", (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 1.5; // tốc độ kéo
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // nút bấm
+        document.querySelector(".next").onclick = () => {
+            slider.scrollBy({ left: 300, behavior: "smooth" });
+        };
+
+        document.querySelector(".prev").onclick = () => {
+            slider.scrollBy({ left: -300, behavior: "smooth" });
+        };
+
+        const cards = document.querySelectorAll(".card");
+
+        slider.addEventListener("scroll", () => {
+            cards.forEach(card => {
+                const speed = slider.scrollLeft * 0.1;
+                card.style.transform = `translateX(${speed}px)`;
+            });
+        });
+    </script>
+</body>
+
+</html>
