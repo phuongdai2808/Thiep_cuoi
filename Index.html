@@ -115,6 +115,30 @@
             animation: fadeDown .9s .1s ease both;
         }
 
+        .hero-invite-block {
+            text-align: center; margin-bottom: 16px;
+            animation: fadeDown .9s .1s ease both;
+        }
+        .hero-invite-line1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(11px, 2.5vw, 14px);
+            letter-spacing: 5px; color: var(--gold);
+            font-weight: 600; margin-bottom: 6px;
+        }
+        .hero-invite-line2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(16px, 4vw, 22px);
+            letter-spacing: 6px; color: var(--deeprose);
+            font-weight: 600; margin-bottom: 8px;
+            text-shadow: 0 1px 6px rgba(155,58,77,.15);
+        }
+        .hero-invite-line3 {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(13px, 3vw, 16px);
+            font-style: italic; color: var(--rose);
+            line-height: 1.8; opacity: .9;
+        }
+
         .hero-names {
             font-family: 'Great Vibes', cursive;
             font-size: clamp(52px, 10vw, 88px);
@@ -125,7 +149,7 @@
 
         .hero-ampersand {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(36px, 6vw, 56px);
+            font-size: clamp(52px, 10vw, 88px);
             color: var(--gold); display: block;
             animation: fadeDown 1s .3s ease both;
         }
@@ -323,8 +347,8 @@
 
         .slideshow-wrap {
             position: relative;
-            width: 100%; max-width: 680px;
-            aspect-ratio: 4/3;
+            width: 100%; max-width: 420px;
+            aspect-ratio: 2/3;
             overflow: hidden;
         }
 
@@ -340,15 +364,10 @@
 
         .slide-img {
             width: 100%; height: 100%; object-fit: cover;
-            display: flex; align-items: center; justify-content: center;
+            display: block;
         }
 
-        /* Placeholder gradients for demo */
-        .slide:nth-child(1) .slide-img { background: linear-gradient(135deg, #f2c4ce 0%, #c8697a 50%, #9b3a4d 100%); }
-        .slide:nth-child(2) .slide-img { background: linear-gradient(135deg, #fce8ed 0%, #e8aab8 50%, #c8697a 100%); }
-        .slide:nth-child(3) .slide-img { background: linear-gradient(135deg, #c9a96e 0%, #f2c4ce 50%, #fce8ed 100%); }
-        .slide:nth-child(4) .slide-img { background: linear-gradient(135deg, #9b3a4d 0%, #c8697a 50%, #f2c4ce 100%); }
-        .slide:nth-child(5) .slide-img { background: linear-gradient(135deg, #fdf6f0 0%, #c9a96e 50%, #9b3a4d 100%); }
+        /* Placeholder gradients removed — using real images */
 
         .slide-placeholder-text {
             font-family: 'Great Vibes', cursive;
@@ -397,31 +416,384 @@
         .closing-wish { font-family: 'Cormorant Garamond', serif; font-size: clamp(16px, 3vw, 20px); font-style: italic; color: var(--rose); text-align: center; line-height: 2.1; max-width: 420px; }
         .kính-mời { font-family: 'Great Vibes', cursive; font-size: clamp(42px, 8vw, 62px); color: var(--deeprose); animation: floatY 3s ease-in-out infinite; display: inline-block; }
 
-        /* ── MUSIC BUTTON ── */
-        #music-btn {
-            position: fixed; bottom: 28px; right: 28px;
-            width: 52px; height: 52px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--rose), var(--deeprose));
-            border: none; cursor: pointer; z-index: 10000;
+        /* ══════════════ ENVELOPE INTRO — UPGRADED ══════════════ */
+        #envelope-overlay {
+            position: fixed; inset: 0; z-index: 99999;
+            background: radial-gradient(ellipse at 50% 40%, #2a0810 0%, #130208 60%, #0a0105 100%);
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 20px rgba(155,58,77,.35);
-            transition: transform .25s, box-shadow .25s;
-            animation: pulseGold 3s ease infinite;
+            transition: opacity 1s ease, visibility 1s ease;
+            overflow: hidden;
         }
-        #music-btn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(155,58,77,.5); }
-        #music-btn svg { width: 22px; height: 22px; fill: #fff; transition: opacity .3s; }
-        #music-btn .icon-pause { display: none; }
-        #music-btn.playing .icon-play  { display: none; }
-        #music-btn.playing .icon-pause { display: block; }
+        #envelope-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
-        .music-hint {
-            position: fixed; bottom: 90px; right: 28px;
-            background: rgba(155,58,77,.9); color: #fff;
+        /* ── Bokeh circles ── */
+        .bokeh {
+            position: absolute; border-radius: 50%;
+            pointer-events: none;
+            animation: bokehFloat ease-in-out infinite;
+        }
+        @keyframes bokehFloat {
+            0%,100% { transform: translateY(0) scale(1); opacity: var(--bk-op); }
+            50%      { transform: translateY(-30px) scale(1.1); opacity: calc(var(--bk-op) * 1.4); }
+        }
+
+        /* ── Light rays from center ── */
+        .light-rays {
+            position: absolute;
+            width: 600px; height: 600px;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -55%);
+            pointer-events: none;
+        }
+        .ray {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 1px; height: 300px;
+            transform-origin: top center;
+            background: linear-gradient(to bottom, rgba(201,169,110,.25), transparent);
+            animation: rayPulse 3s ease-in-out infinite;
+        }
+        @keyframes rayPulse {
+            0%,100% { opacity: .4; transform-origin: top center; transform: rotate(var(--ray-rot)) scaleX(1); }
+            50%      { opacity: .8; transform-origin: top center; transform: rotate(var(--ray-rot)) scaleX(2.5); }
+        }
+
+        /* ── Sparkle stars ── */
+        .star-field { position: absolute; inset: 0; pointer-events: none; }
+        .star {
+            position: absolute; border-radius: 50%;
+            animation: starTwinkle ease-in-out infinite;
+        }
+        @keyframes starTwinkle {
+            0%,100% { opacity: 0; transform: scale(.5); }
+            50%      { opacity: 1;  transform: scale(1); }
+        }
+
+        /* ── Floating orbs ── */
+        .orb {
+            position: absolute; border-radius: 50%;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(200,105,122,.35), transparent 70%);
+            animation: orbDrift ease-in-out infinite;
+        }
+        @keyframes orbDrift {
+            0%,100% { transform: translate(0,0); }
+            33%      { transform: translate(20px, -15px); }
+            66%      { transform: translate(-15px, 10px); }
+        }
+
+        /* ── Overlay scene ── */
+        #env-scene {
+            position: relative; z-index: 10;
+            display: flex; flex-direction: column; align-items: center; gap: 28px;
+            perspective: 1200px;
+        }
+
+        /* ── Top title ── */
+        .env-overlay-title {
+            text-align: center; animation: fadeDown .8s ease both;
+        }
+        .env-overlay-pre {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 13px; padding: 8px 16px; border-radius: 20px;
-            white-space: nowrap; z-index: 10000;
-            animation: fadeUp .5s ease both;
-            backdrop-filter: blur(8px);
+            font-size: 11px; letter-spacing: 6px; text-transform: uppercase;
+            color: rgba(201,169,110,.7); margin-bottom: 8px;
+        }
+        .env-overlay-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(38px, 9vw, 62px);
+            background: linear-gradient(135deg, #e8c97a 0%, #fff8e7 40%, #c9a96e 60%, #e8c97a 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite;
+            filter: drop-shadow(0 0 18px rgba(201,169,110,.5));
+            line-height: 1.1;
+        }
+        .env-overlay-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 12px; letter-spacing: 5px; text-transform: uppercase;
+            color: rgba(242,196,206,.6); margin-top: 6px;
+        }
+
+        /* ── Envelope ── */
+        #envelope {
+            position: relative;
+            width: min(360px, 82vw);
+            height: min(244px, 55vw);
+            cursor: pointer;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 30px 60px rgba(0,0,0,.7)) drop-shadow(0 0 40px rgba(201,169,110,.2));
+            animation: floatY 4s ease-in-out infinite;
+            transition: filter .3s ease;
+        }
+        #envelope:hover {
+            filter: drop-shadow(0 30px 60px rgba(0,0,0,.7)) drop-shadow(0 0 60px rgba(201,169,110,.45));
+        }
+
+        /* Envelope back */
+        #env-back {
+            position: absolute; inset: 0;
+            background: linear-gradient(145deg, #fdf5f7 0%, #fce8ed 50%, #f5c4cf 100%);
+            border-radius: 6px;
+            box-shadow: inset 0 -2px 8px rgba(155,58,77,.1);
+            border: 1px solid rgba(232,170,184,.6);
+        }
+
+        /* Gold ribbon/line on envelope */
+        #env-back::after {
+            content: '';
+            position: absolute; left: 8%; right: 8%; top: 50%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(201,169,110,.5), transparent);
+        }
+
+        /* V-pattern bottom flap */
+        #env-bottom-flap {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 55%;
+            background: linear-gradient(170deg, #fce8ed 0%, #f5c4cf 100%);
+            clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+            border-radius: 0 0 6px 6px;
+        }
+
+        /* Side flaps */
+        #env-left-flap {
+            position: absolute; top: 0; left: 0; bottom: 0; width: 50%;
+            background: linear-gradient(135deg, #fdf0f4 0%, #f2c4ce 100%);
+            clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+            opacity: .65;
+        }
+        #env-right-flap {
+            position: absolute; top: 0; right: 0; bottom: 0; width: 50%;
+            background: linear-gradient(225deg, #fdf0f4 0%, #f2c4ce 100%);
+            clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+            opacity: .65;
+        }
+
+        /* Top flap */
+        #env-top-flap {
+            position: absolute; top: 0; left: 0; right: 0; height: 55%;
+            background: linear-gradient(160deg, #fdfaf0 0%, #fce8ed 40%, #f9d5de 100%);
+            clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+            transform-origin: top center;
+            transform-style: preserve-3d;
+            transition: transform 1.1s cubic-bezier(.4,0,.2,1);
+            z-index: 4;
+            border-radius: 6px 6px 0 0;
+            border: 1px solid rgba(232,170,184,.5);
+            border-bottom: none;
+        }
+        #env-top-flap::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(160deg, rgba(201,169,110,.2) 0%, transparent 50%);
+            clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+        }
+
+        /* Gold wax seal — upgraded */
+        #env-top-flap::before {
+            content: '✦';
+            position: absolute;
+            left: 50%; bottom: -18px;
+            transform: translateX(-50%);
+            width: 40px; height: 40px;
+            background: radial-gradient(circle at 35% 35%, #f0d880, #c9a96e 50%, #a07830 100%);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #5c3a10; font-size: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.4), 0 0 20px rgba(201,169,110,.4);
+            line-height: 40px; text-align: center;
+            z-index: 5;
+        }
+
+        /* Card that rises from envelope */
+        #env-card {
+            position: absolute;
+            left: 5%; right: 5%;
+            bottom: 6%;
+            height: 95%;
+            background: linear-gradient(160deg, #fff5f7 0%, #fdf0f4 60%, #fce8ed 100%);
+            border: 1px solid rgba(232,196,206,.8);
+            border-radius: 4px;
+            box-shadow: 0 4px 24px rgba(155,58,77,.25);
+            z-index: 2;
+            transform: translateY(0);
+            transition: transform 1.3s cubic-bezier(.22,1,.36,1);
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #env-card::before {
+            content: '';
+            position: absolute; inset: 8px;
+            border: 1px solid rgba(201,169,110,.3);
+            pointer-events: none;
+        }
+        #env-card::after {
+            content: '';
+            position: absolute; inset: 14px;
+            border: 1px solid rgba(201,169,110,.12);
+            pointer-events: none;
+        }
+
+        .env-card-inner {
+            text-align: center; padding: 16px;
+            opacity: 0; transition: opacity .6s .3s;
+        }
+        #env-card.risen .env-card-inner { opacity: 1; }
+
+        .env-card-badge {
+            font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 12px;
+        }
+        .env-card-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(28px, 7vw, 44px);
+            color: var(--deeprose); line-height: 1.1;
+        }
+        .env-card-names span { font-size: .75em; color: var(--gold); }
+        .env-card-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px; letter-spacing: 4px; color: var(--rose);
+            margin-top: 8px;
+        }
+        .env-card-divider {
+            width: 60px; height: 1px;
+            background: linear-gradient(to right, transparent, var(--blush), transparent);
+            margin: 10px auto;
+        }
+        .env-card-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--rose); font-style: italic;
+        }
+
+        /* Tap hint — upgraded with ripple */
+        #env-tap-hint {
+            position: relative;
+            display: flex; flex-direction: column; align-items: center; gap: 14px;
+            animation: fadeDown .8s .4s ease both;
+            cursor: pointer;
+        }
+        .env-hint-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px; letter-spacing: 5px; text-transform: uppercase;
+            color: rgba(242,196,206,.75);
+        }
+        .env-hint-btn {
+            width: 54px; height: 54px; border-radius: 50%;
+            border: 1px solid rgba(201,169,110,.5);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; color: var(--gold); font-size: 22px;
+            animation: floatY 2s ease-in-out infinite;
+            background: rgba(201,169,110,.08);
+        }
+        .env-hint-btn::before, .env-hint-btn::after {
+            content: '';
+            position: absolute; inset: -8px; border-radius: 50%;
+            border: 1px solid rgba(201,169,110,.25);
+            animation: rippleOut 2s ease-out infinite;
+        }
+        .env-hint-btn::after { animation-delay: 1s; }
+        @keyframes rippleOut {
+            0%   { transform: scale(1);   opacity: .6; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        /* State: flap open */
+        #envelope.open #env-top-flap { transform: rotateX(-180deg); }
+
+        /* State: card risen */
+        #envelope.risen #env-card { transform: translateY(-115%); }
+
+        /* Overlay petals */
+        .env-petal {
+            position: fixed; border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+            pointer-events: none; z-index: 99998;
+            animation: petalFall linear forwards;
+        }
+
+        /* ── Enhanced scroll reveal ── */
+        .fly-left  { opacity: 0; transform: translateX(-60px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+        .fly-right { opacity: 0; transform: translateX(60px);  transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+        .fly-up    { opacity: 0; transform: translateY(50px);  transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+        .fly-scale { opacity: 0; transform: scale(.88);        transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+        .fly-left.visible, .fly-right.visible, .fly-up.visible, .fly-scale.visible {
+            opacity: 1; transform: none;
+        }
+        .fly-delay-1 { transition-delay: .1s !important; }
+        .fly-delay-2 { transition-delay: .2s !important; }
+        .fly-delay-3 { transition-delay: .3s !important; }
+        .fly-delay-4 { transition-delay: .4s !important; }
+
+        /* ── CALENDAR ── */
+        .calendar-wrap {
+            margin-top: 36px;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(242,196,206,.2);
+            border-radius: 8px;
+            padding: 20px 24px 16px;
+            max-width: 340px; width: 100%;
+        }
+        .cal-header {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-bottom: 16px;
+        }
+        .cal-month {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px; letter-spacing: 4px; text-transform: uppercase;
+            color: #fce8ed; font-weight: 600;
+        }
+        .cal-year {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px; letter-spacing: 3px;
+            color: rgba(201,169,110,.8);
+        }
+        .cal-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            gap: 4px 2px;
+        }
+        .cal-dow {
+            text-align: center;
+            font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+            color: rgba(201,169,110,.7); padding-bottom: 8px;
+            border-bottom: 1px solid rgba(242,196,206,.15);
+            margin-bottom: 4px;
+        }
+        .cal-day {
+            text-align: center; padding: 5px 2px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px; color: rgba(255,255,255,.55);
+            border-radius: 50%;
+            line-height: 1;
+        }
+        .cal-day.today-wed {
+            color: rgba(242,196,206,.8);
+        }
+        .cal-day.wedding-day {
+            background: radial-gradient(circle, #c9a96e, #a8804a);
+            color: #fff !important;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 0 12px rgba(201,169,110,.6), 0 0 24px rgba(201,169,110,.3);
+            animation: pulseGold 2s ease infinite;
+            position: relative;
+        }
+        .cal-day.wedding-day::after {
+            content: '♡';
+            position: absolute; top: -10px; left: 50%;
+            transform: translateX(-50%);
+            font-size: 8px; color: var(--rose);
+            animation: heartbeat 2s ease infinite;
+        }
+        .cal-note {
+            text-align: center; margin-top: 14px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 12px; letter-spacing: 2px; font-style: italic;
+            color: rgba(201,169,110,.7);
+        }
+
+        /* Chặn hover/pointer-events khi overlay đang mở */
+        body.overlay-active > *:not(#envelope-overlay) {
+            pointer-events: none !important;
         }
 
         /* ── RESPONSIVE ── */
@@ -436,24 +808,54 @@
 </head>
 <body>
 
+<!-- ═══════════════ ENVELOPE INTRO ═══════════════ -->
+<div id="envelope-overlay">
+
+    <!-- Background effects -->
+    <div class="star-field" id="star-field"></div>
+    <div class="light-rays" id="light-rays"></div>
+    <div id="bokeh-layer"></div>
+    <div id="orb-layer"></div>
+
+    <div id="env-scene">
+        <!-- Title above envelope -->
+        <div class="env-overlay-title">
+            <div class="env-overlay-pre">✦ Trân Trọng Kính Mời ✦</div>
+            <div class="env-overlay-names">Huyền Trân &amp; Anh Kiệt</div>
+            <div class="env-overlay-date">25 · 05 · 2026</div>
+        </div>
+
+        <!-- Envelope body -->
+        <div id="envelope">
+            <div id="env-back"></div>
+            <div id="env-left-flap"></div>
+            <div id="env-right-flap"></div>
+            <div id="env-bottom-flap"></div>
+            <div id="env-top-flap"></div>
+            <!-- Card inside -->
+            <div id="env-card">
+                <div class="env-card-inner">
+                    <div class="env-card-badge">✦ Thiệp Mời ✦</div>
+                    <div class="env-card-names">Huyền Trân<br><span>&</span><br>Anh Kiệt</div>
+                    <div class="env-card-date">25 · 05 · 2026</div>
+                    <div class="env-card-divider"></div>
+                    <div class="env-card-sub">Kính mời Quý Vị</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tap hint — upgraded -->
+        <div id="env-tap-hint">
+            <div class="env-hint-btn">✦</div>
+            <div class="env-hint-text">Nhấn để mở thiệp</div>
+        </div>
+    </div>
+</div>
+
 <!-- ══ MUSIC ══ -->
 <audio id="bg-music" loop>
-    <!--
-        Thay đổi src bên dưới thành file nhạc của bạn.
-        Ví dụ: src="nhac-nen.mp3"
-        Hoặc dùng link nhạc online: src="https://..."
-    -->
     <source src="https://assets.mixkit.co/music/preview/mixkit-dreaming-big-31.mp3" type="audio/mpeg">
 </audio>
-
-<button id="music-btn" title="Bật / Tắt nhạc nền">
-    <!-- Play icon -->
-    <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-    <!-- Pause icon -->
-    <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-</button>
-
-<div class="music-hint" id="music-hint">🎵 Nhấn để bật nhạc</div>
 
 <!-- ═══════════════ HERO ═══════════════ -->
 <section class="hero">
@@ -512,7 +914,12 @@
     </svg>
 
     <div class="hero-badge">✦ Thiệp Mời ✦</div>
-    <p class="hero-pre">Trân trọng kính mời</p>
+
+    <div class="hero-invite-block">
+        <p class="hero-invite-line1">TRÂN TRỌNG KÍNH MỜI</p>
+        <p class="hero-invite-line2">QUÝ GIA ĐÌNH</p>
+        <p class="hero-invite-line3">Vui lòng đến dự buổi tiệc rượu chung vui<br>cùng gia đình chúng tôi</p>
+    </div>
 
     <div class="hero-names">
         Huyền Trân
@@ -541,19 +948,19 @@
     <div class="thin-line"></div>
 
     <div class="parents-grid">
-        <div class="family-card reveal-left">
+        <div class="family-card reveal-left fly-left">
             <div class="family-label">Nhà Gái — Cần Thơ</div>
             <div class="family-parents">Ông PHAN VĂN ÚT<br>Bà NHÂM THỊ SƠN</div>
             <div class="family-address">Số nhà 144, Ấp Tân Thành<br>Xã Long Hưng, TP Cần Thơ</div>
         </div>
 
-        <div class="parents-divider">
+        <div class="parents-divider fly-up fly-delay-2">
             <div class="vline"></div>
             <div class="heart">♡</div>
             <div class="vline"></div>
         </div>
 
-        <div class="family-card reveal-right">
+        <div class="family-card reveal-right fly-right">
             <div class="family-label">Nhà Trai — Tây Ninh</div>
             <div class="family-parents">Ông NGUYỄN VĂN LÊN<br>Bà TRẦN THỊ LAN</div>
             <div class="family-address">Tổ 10, Ấp Phước Kế<br>Xã Mỹ Lộc, Tỉnh Tây Ninh</div>
@@ -571,11 +978,11 @@
     <div class="thin-line"></div>
 
     <div class="couple-wrap">
-        <div class="bride-name reveal-left">Phan Thị Huyền Trân</div>
-        <div class="role-badge">Trưởng Nữ</div>
-        <div class="couple-and">và</div>
-        <div class="groom-name reveal-right">Nguyễn Anh Kiệt</div>
-        <div class="role-badge">Út Nam</div>
+        <div class="bride-name reveal-left fly-left">Phan Thị Huyền Trân</div>
+        <div class="role-badge fly-up fly-delay-1">Trưởng Nữ</div>
+        <div class="couple-and fly-scale fly-delay-2">và</div>
+        <div class="groom-name reveal-right fly-right fly-delay-3">Nguyễn Anh Kiệt</div>
+        <div class="role-badge fly-up fly-delay-4">Út Nam</div>
     </div>
 </section>
 
@@ -610,6 +1017,65 @@
     <p style="margin-top:28px; font-family:'Cormorant Garamond',serif; font-size:14px; letter-spacing:2px; color:rgba(242,196,206,.6); text-align:center;">
         25 · 05 · 2026 &nbsp;—&nbsp; Tiệc Rượu lúc 07:30 Sáng
     </p>
+
+    <!-- Lịch tháng 5/2026 -->
+    <div class="calendar-wrap reveal">
+        <div class="cal-header">
+            <span class="cal-month">Tháng 5</span>
+            <span class="cal-year">· 2026 ·</span>
+        </div>
+        <div class="cal-grid">
+            <!-- Tiêu đề thứ (bắt đầu Thứ Hai) -->
+            <div class="cal-dow">T2</div>
+            <div class="cal-dow">T3</div>
+            <div class="cal-dow">T4</div>
+            <div class="cal-dow">T5</div>
+            <div class="cal-dow">T6</div>
+            <div class="cal-dow">T7</div>
+            <div class="cal-dow" style="color:rgba(200,105,122,.7)">CN</div>
+            <!-- Tuần 1: 1/5 là Thứ Sáu -->
+            <div class="cal-day empty"></div>
+            <div class="cal-day empty"></div>
+            <div class="cal-day empty"></div>
+            <div class="cal-day empty"></div>
+            <div class="cal-day">1</div>
+            <div class="cal-day">2</div>
+            <div class="cal-day" style="color:rgba(200,105,122,.6)">3</div>
+            <!-- Tuần 2 -->
+            <div class="cal-day">4</div>
+            <div class="cal-day">5</div>
+            <div class="cal-day">6</div>
+            <div class="cal-day">7</div>
+            <div class="cal-day">8</div>
+            <div class="cal-day">9</div>
+            <div class="cal-day" style="color:rgba(200,105,122,.6)">10</div>
+            <!-- Tuần 3 -->
+            <div class="cal-day">11</div>
+            <div class="cal-day">12</div>
+            <div class="cal-day">13</div>
+            <div class="cal-day">14</div>
+            <div class="cal-day">15</div>
+            <div class="cal-day">16</div>
+            <div class="cal-day" style="color:rgba(200,105,122,.6)">17</div>
+            <!-- Tuần 4 -->
+            <div class="cal-day">18</div>
+            <div class="cal-day">19</div>
+            <div class="cal-day">20</div>
+            <div class="cal-day">21</div>
+            <div class="cal-day">22</div>
+            <div class="cal-day">23</div>
+            <div class="cal-day" style="color:rgba(200,105,122,.6)">24</div>
+            <!-- Tuần 5: 25/5 là Thứ Hai — NGÀY CƯỚI -->
+            <div class="cal-day wedding-day">25</div>
+            <div class="cal-day">26</div>
+            <div class="cal-day">27</div>
+            <div class="cal-day">28</div>
+            <div class="cal-day">29</div>
+            <div class="cal-day">30</div>
+            <div class="cal-day" style="color:rgba(200,105,122,.6)">31</div>
+        </div>
+        <p class="cal-note">✦ Ngày 09 tháng 04 năm Bính Ngọ ✦</p>
+    </div>
 </section>
 
 <!-- ═══════════════ TIMELINE ═══════════════ -->
@@ -620,26 +1086,26 @@
 
     <div class="timeline">
         <div class="tl-item">
-            <div class="tl-left">
+            <div class="tl-left fly-left">
                 <div class="tl-label">Ngày</div>
                 <div class="tl-value">24 – 25 / 05</div>
                 <div class="tl-sub">08 – 09 / 04 Bính Ngọ</div>
             </div>
-            <div class="tl-dot"></div>
-            <div class="tl-right">
+            <div class="tl-dot fly-scale fly-delay-2"></div>
+            <div class="tl-right fly-right fly-delay-1">
                 <div class="tl-note">Lễ Vu Quy</div>
                 <div class="tl-sub">Tư Gia</div>
             </div>
         </div>
 
         <div class="tl-item">
-            <div class="tl-left">
+            <div class="tl-left fly-left fly-delay-1">
                 <div class="tl-label">Tiệc Rượu</div>
                 <div class="tl-value">25 / 05 / 2026</div>
                 <div class="tl-sub">09 tháng 04 Bính Ngọ</div>
             </div>
-            <div class="tl-dot" style="background:var(--gold); box-shadow: 0 0 0 2px var(--gold);"></div>
-            <div class="tl-right">
+            <div class="tl-dot fly-scale fly-delay-3" style="background:var(--gold); box-shadow: 0 0 0 2px var(--gold);"></div>
+            <div class="tl-right fly-right fly-delay-2">
                 <div class="tl-note" style="font-size:20px; font-family:'Cormorant Garamond',serif; font-weight:600;">07 : 30</div>
                 <div class="tl-sub">Sáng</div>
             </div>
@@ -653,7 +1119,7 @@
     <h2 class="section-heading">Nơi Tổ Chức</h2>
     <div class="thin-line"></div>
 
-    <div class="venue-card">
+    <div class="venue-card fly-scale">
         <div class="venue-name">Tư Gia</div>
         <div class="venue-address">
             Số nhà 144, Ấp Tân Thành<br>
@@ -707,33 +1173,23 @@
             Có thể thêm nhiều slide hơn theo cùng cấu trúc.
         -->
         <div class="slide active">
-            <div class="slide-img">
-                <div class="slide-placeholder-text">Huyền Trân<br>&amp; Anh Kiệt</div>
-            </div>
+            <img class="slide-img" src="https://phuongdai2808.github.io/Thiep_cuoi/img1.jpg" alt="Ảnh 1">
             <div class="slide-caption">Hành trình bắt đầu từ đây ✦</div>
         </div>
         <div class="slide">
-            <div class="slide-img">
-                <div class="slide-placeholder-text">Ảnh 2</div>
-            </div>
+            <img class="slide-img" src="https://phuongdai2808.github.io/Thiep_cuoi/img2.jpg" alt="Ảnh 2">
             <div class="slide-caption">Mãi bên nhau ✦</div>
         </div>
         <div class="slide">
-            <div class="slide-img">
-                <div class="slide-placeholder-text">Ảnh 3</div>
-            </div>
+            <img class="slide-img" src="https://phuongdai2808.github.io/Thiep_cuoi/img3.jpg" alt="Ảnh 3">
             <div class="slide-caption">Tình yêu đẹp nhất ✦</div>
         </div>
         <div class="slide">
-            <div class="slide-img">
-                <div class="slide-placeholder-text">Ảnh 4</div>
-            </div>
+            <img class="slide-img" src="https://phuongdai2808.github.io/Thiep_cuoi/img4.jpg" alt="Ảnh 4">
             <div class="slide-caption">Ngày trọng đại ✦</div>
         </div>
         <div class="slide">
-            <div class="slide-img">
-                <div class="slide-placeholder-text">Ảnh 5</div>
-            </div>
+            <img class="slide-img" src="https://phuongdai2808.github.io/Thiep_cuoi/img5.jpg" alt="Ảnh 5">
             <div class="slide-caption">Hạnh phúc trọn vẹn ✦</div>
         </div>
     </div>
@@ -775,11 +1231,146 @@
 </section>
 
 <script>
-/* ═══ SCROLL REVEAL ═══ */
-const allReveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+/* ═══ ENVELOPE INTRO ═══ */
+(function() {
+    const overlay  = document.getElementById('envelope-overlay');
+    const envelope = document.getElementById('envelope');
+    const card     = document.getElementById('env-card');
+    const hint     = document.getElementById('env-tap-hint');
+    let opened = false;
+
+    // Khoá scroll & hover khi chưa mở thiệp
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('overlay-active');
+
+    /* ── Tạo sao ── */
+    const sf = document.getElementById('star-field');
+    for (let i = 0; i < 60; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        const sz = .8 + Math.random() * 2;
+        s.style.cssText = `
+            left:${Math.random()*100}%;top:${Math.random()*100}%;
+            width:${sz}px;height:${sz}px;
+            background:${Math.random()>.5 ? '#fff8e7' : '#fce8ed'};
+            animation-duration:${1.5+Math.random()*3}s;
+            animation-delay:${Math.random()*4}s;
+            box-shadow:0 0 ${sz*2}px ${sz}px rgba(255,248,231,.5);
+        `;
+        sf.appendChild(s);
+    }
+
+    /* ── Tạo tia sáng ── */
+    const lr = document.getElementById('light-rays');
+    const rayCount = 12;
+    for (let i = 0; i < rayCount; i++) {
+        const r = document.createElement('div');
+        r.className = 'ray';
+        r.style.cssText = `
+            --ray-rot:${i * (360/rayCount)}deg;
+            transform: rotate(${i*(360/rayCount)}deg);
+            width:${1+Math.random()*2}px;
+            opacity:${.2+Math.random()*.3};
+            animation-duration:${2+Math.random()*2}s;
+            animation-delay:${Math.random()*2}s;
+        `;
+        lr.appendChild(r);
+    }
+
+    /* ── Tạo bokeh circles ── */
+    const bl = document.getElementById('bokeh-layer');
+    const bokehData = [
+        {sz:80,x:10,y:15,op:.06,dur:6},{sz:120,x:85,y:10,op:.05,dur:8},
+        {sz:60,x:5,y:70,op:.07,dur:5},{sz:90,x:90,y:75,op:.06,dur:7},
+        {sz:50,x:50,y:5,op:.08,dur:6},{sz:70,x:30,y:85,op:.05,dur:9},
+        {sz:100,x:70,y:85,op:.04,dur:7},{sz:40,x:20,y:45,op:.09,dur:5},
+    ];
+    bokehData.forEach(b => {
+        const el = document.createElement('div');
+        el.className = 'bokeh';
+        el.style.cssText = `
+            width:${b.sz}px;height:${b.sz}px;
+            left:${b.x}%;top:${b.y}%;
+            --bk-op:${b.op};
+            opacity:${b.op};
+            background:radial-gradient(circle,rgba(201,169,110,${b.op*5}) 0%,transparent 70%);
+            animation-duration:${b.dur}s;
+            animation-delay:${Math.random()*3}s;
+        `;
+        bl.appendChild(el);
+    });
+
+    /* ── Tạo orbs ── */
+    const ol = document.getElementById('orb-layer');
+    [{w:200,h:200,x:20,y:20},{w:160,h:160,x:65,y:65},{w:120,h:120,x:40,y:50}].forEach(o => {
+        const el = document.createElement('div');
+        el.className = 'orb';
+        el.style.cssText = `
+            width:${o.w}px;height:${o.h}px;
+            left:${o.x}%;top:${o.y}%;
+            animation-duration:${8+Math.random()*4}s;
+            animation-delay:${Math.random()*3}s;
+        `;
+        ol.appendChild(el);
+    });
+
+    // Spawn overlay petals
+    function spawnEnvPetal() {
+        const p = document.createElement('div');
+        p.className = 'env-petal';
+        const colors = ['#f2c4ce','#fce8ed','#e8aab8','#f9d5de'];
+        p.style.cssText = `
+            left: ${Math.random()*100}vw;
+            width: ${8+Math.random()*10}px;
+            height: ${10+Math.random()*12}px;
+            background: ${colors[Math.floor(Math.random()*colors.length)]};
+            animation-duration: ${6+Math.random()*5}s;
+            animation-delay: ${Math.random()*1}s;
+            opacity: ${0.3+Math.random()*0.4};
+        `;
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 12000);
+    }
+    const envPetalTimer = setInterval(spawnEnvPetal, 600);
+
+    function openEnvelope() {
+        if (opened) return;
+        opened = true;
+        hint.style.opacity = '0';
+        hint.style.transition = 'opacity .3s';
+
+        // Phát nhạc ngay khi nhấn
+        tryPlayMusic();
+
+        // 1. Open flap
+        envelope.classList.add('open');
+
+        // 2. Rise card
+        setTimeout(() => {
+            envelope.classList.add('risen');
+            card.classList.add('risen');
+        }, 1000);
+
+        // 3. Fade out overlay + mở khoá scroll + hover
+        setTimeout(() => {
+            clearInterval(envPetalTimer);
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+            document.body.classList.remove('overlay-active');
+        }, 2600);
+    }
+
+    overlay.addEventListener('click', openEnvelope);
+
+    // Auto-open sau 10s nếu không nhấn
+    setTimeout(openEnvelope, 10000);
+})();
+
+/* ═══ ENHANCED SCROLL REVEAL ═══ */
+const allReveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .fly-left, .fly-right, .fly-up, .fly-scale');
 const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
+}, { threshold: 0.12 });
 allReveals.forEach(r => revealObs.observe(r));
 
 /* ═══ FLOATING PETALS ═══ */
@@ -873,41 +1464,12 @@ sw.addEventListener('touchend', e => {
     if (Math.abs(dx) > 50) changeSlide(dx < 0 ? 1 : -1);
 }, {passive:true});
 
-/* ═══ MUSIC ═══ */
+/* ═══ MUSIC (tự động phát khi mở thiệp) ═══ */
 const music = document.getElementById('bg-music');
-const btn   = document.getElementById('music-btn');
-const hint  = document.getElementById('music-hint');
-let hintDismissed = false;
-
 music.volume = 0.35;
-
-btn.addEventListener('click', () => {
-    if (!hintDismissed) {
-        hint.style.display = 'none';
-        hintDismissed = true;
-    }
-    if (music.paused) {
-        music.play().catch(() => {});
-        btn.classList.add('playing');
-    } else {
-        music.pause();
-        btn.classList.remove('playing');
-    }
-});
-
-// Auto-dismiss hint after 4s
-setTimeout(() => {
-    if (!hintDismissed) hint.style.opacity = '0';
-    setTimeout(() => { hint.style.display = 'none'; hintDismissed = true; }, 1000);
-}, 5000);
-
-// Try autoplay on first interaction
-document.addEventListener('click', function autoplay() {
-    music.play().then(() => {
-        btn.classList.add('playing');
-    }).catch(() => {});
-    document.removeEventListener('click', autoplay);
-}, { once: true });
+function tryPlayMusic() {
+    music.play().catch(() => {});
+}
 </script>
 </body>
 </html>
