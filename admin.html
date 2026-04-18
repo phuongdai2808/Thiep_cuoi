@@ -599,10 +599,10 @@
     </div>
 
     <script>
-        /* ── CONFIG: đổi mật khẩu ở đây ── */
+        /* ── CONFIG ── */
         const ADMIN_PASSWORD = '1234';
-        const STORAGE_KEY = 'wishes_huyentran_anhkiet_2026';
         const SESSION_KEY = 'admin_hk2026';
+        const DB_URL = 'https://thiepcuoi-1d2a1-default-rtdb.firebaseio.com';
 
         /* ── AUTH ── */
         function doLogin() {
@@ -629,16 +629,32 @@
             document.getElementById('admin-panel').style.display = 'block';
         }
 
-        /* ── STORAGE ── */
+        /* ── FIREBASE ── */
         async function loadWishes() {
             try {
-                const r = await window.storage.get(STORAGE_KEY, true);
-                return r ? JSON.parse(r.value) : [];
+                const r = await fetch(`${DB_URL}/wishes.json`);
+                const data = await r.json();
+                if (!data) return [];
+                return Object.entries(data)
+                    .map(([key, val]) => ({ ...val, _key: key }))
+                    .sort((a, b) => (a.date || '').localeCompare(b.date || ''));
             } catch { return []; }
         }
 
-        async function saveWishes(list) {
-            await window.storage.set(STORAGE_KEY, JSON.stringify(list), true);
+        async function firebasePatch(key, fields) {
+            await fetch(`${DB_URL}/wishes/${key}.json`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(fields)
+            });
+        }
+
+        async function firebaseDelete(key) {
+            await fetch(`${DB_URL}/wishes/${key}.json`, { method: 'DELETE' });
+        }
+
+        async function firebaseDeleteAll() {
+            await fetch(`${DB_URL}/wishes.json`, { method: 'DELETE' });
         }
 
         /* ── STATE ── */
@@ -671,7 +687,7 @@
             const q = (document.getElementById('search-box').value || '').toLowerCase();
             const container = document.getElementById('wishes-list');
 
-            const filtered = allWishes.map((w, i) => ({ w, i })).filter(({ w }) =>
+            const filtered = allWishes.filter(w =>
                 !q || (w.name || '').toLowerCase().includes(q) || (w.msg || '').toLowerCase().includes(q)
             );
 
@@ -681,7 +697,8 @@
             }
 
             container.innerHTML = '';
-            [...filtered].reverse().forEach(({ w, i }) => {
+            [...filtered].reverse().forEach(w => {
+                const k = w._key;
                 const el = document.createElement('div');
                 el.className = 'wish-item';
                 el.innerHTML = `
@@ -691,14 +708,14 @@
         </div>
         <div class="wish-msg">${esc(w.msg)}</div>
         <div class="wish-actions">
-          <button class="act-btn act-edit"   onclick="startEdit(${i})">✎ Sửa</button>
-          <button class="act-btn act-delete" onclick="confirmDelete(${i})">✕ Xóa</button>
+          <button class="act-btn act-edit"   onclick="startEdit('${k}')">✎ Sửa</button>
+          <button class="act-btn act-delete" onclick="confirmDelete('${k}')">✕ Xóa</button>
         </div>
-        <div class="edit-area" id="edit-${i}">
-          <input  class="edit-name-input" id="en-${i}" placeholder="Tên" maxlength="60">
-          <textarea class="edit-msg-input" id="em-${i}" maxlength="400"></textarea>
-          <button class="edit-save-btn"   onclick="saveEdit(${i})">Lưu</button>
-          <button class="edit-cancel-btn" onclick="cancelEdit(${i})">Hủy</button>
+        <div class="edit-area" id="edit-${k}">
+          <input  class="edit-name-input" id="en-${k}" placeholder="Tên" maxlength="60">
+          <textarea class="edit-msg-input" id="em-${k}" maxlength="400"></textarea>
+          <button class="edit-save-btn"   onclick="saveEdit('${k}')">Lưu</button>
+          <button class="edit-cancel-btn" onclick="cancelEdit('${k}')">Hủy</button>
         </div>
       `;
                 container.appendChild(el);
@@ -706,34 +723,37 @@
         }
 
         /* ── EDIT ── */
-        function startEdit(i) {
-            document.getElementById(`edit-${i}`).style.display = 'block';
-            document.getElementById(`en-${i}`).value = allWishes[i].name;
-            document.getElementById(`em-${i}`).value = allWishes[i].msg;
+        function startEdit(k) {
+            const w = allWishes.find(x => x._key === k);
+            if (!w) return;
+            document.getElementById(`edit-${k}`).style.display = 'block';
+            document.getElementById(`en-${k}`).value = w.name;
+            document.getElementById(`em-${k}`).value = w.msg;
         }
-        function cancelEdit(i) {
-            document.getElementById(`edit-${i}`).style.display = 'none';
+        function cancelEdit(k) {
+            document.getElementById(`edit-${k}`).style.display = 'none';
         }
-        async function saveEdit(i) {
-            const name = document.getElementById(`en-${i}`).value.trim();
-            const msg = document.getElementById(`em-${i}`).value.trim();
+        async function saveEdit(k) {
+            const name = document.getElementById(`en-${k}`).value.trim();
+            const msg = document.getElementById(`em-${k}`).value.trim();
             if (!name || !msg) return;
-            allWishes[i].name = name;
-            allWishes[i].msg = msg;
-            await saveWishes(allWishes);
-            cancelEdit(i);
+            await firebasePatch(k, { name, msg });
+            const w = allWishes.find(x => x._key === k);
+            if (w) { w.name = name; w.msg = msg; }
+            cancelEdit(k);
             renderList();
             showToast('✓ Đã lưu thay đổi');
         }
 
         /* ── DELETE ── */
-        let pendingIdx = null;
+        let pendingKey = null;
 
-        function confirmDelete(i) {
-            pendingIdx = i;
+        function confirmDelete(k) {
+            pendingKey = k;
+            const w = allWishes.find(x => x._key === k);
             document.getElementById('modal-icon').textContent = '🗑️';
             document.getElementById('modal-title').textContent = 'Xóa lời chúc?';
-            document.getElementById('modal-msg').textContent = `Xóa lời chúc của "${allWishes[i].name}"? Không thể hoàn tác.`;
+            document.getElementById('modal-msg').textContent = `Xóa lời chúc của "${w ? w.name : ''}"? Không thể hoàn tác.`;
             document.getElementById('modal-confirm-btn').onclick = doDelete;
             document.getElementById('modal').classList.add('show');
         }
@@ -747,20 +767,20 @@
             document.getElementById('modal').classList.add('show');
         }
 
-        function closeModal() { document.getElementById('modal').classList.remove('show') }
+        function closeModal() { document.getElementById('modal').classList.remove('show'); }
 
         async function doDelete() {
             closeModal();
-            allWishes.splice(pendingIdx, 1);
-            await saveWishes(allWishes);
+            await firebaseDelete(pendingKey);
+            allWishes = allWishes.filter(x => x._key !== pendingKey);
             updateStats(); renderList();
             showToast('🗑 Đã xóa lời chúc');
         }
 
         async function doDeleteAll() {
             closeModal();
+            await firebaseDeleteAll();
             allWishes = [];
-            await saveWishes([]);
             updateStats(); renderList();
             showToast('🗑 Đã xóa tất cả');
         }

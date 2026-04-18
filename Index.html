@@ -2609,19 +2609,8 @@
         function tryPlayMusic() {
             music.play().catch(() => { });
         }
-        /* ═══ WISHES (shared storage — đồng bộ với wishes.html & admin.html) ═══ */
-        const WISHES_KEY = 'wishes_huyentran_anhkiet_2026';
-
-        async function loadWishes() {
-            try {
-                const r = await window.storage.get(WISHES_KEY, true);
-                return r ? JSON.parse(r.value) : [];
-            } catch { return []; }
-        }
-
-        async function saveWishes(list) {
-            await window.storage.set(WISHES_KEY, JSON.stringify(list), true);
-        }
+        /* ═══ WISHES (Firebase — đồng bộ với wishes.html & admin.html) ═══ */
+        const DB_URL = 'https://thiepcuoi-1d2a1-default-rtdb.firebaseio.com';
 
         function escHtml(s) {
             return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/\n/g, '<br>');
@@ -2634,20 +2623,26 @@
 
         async function renderWishes() {
             const wall = document.getElementById('wishes-wall');
-            const list = await loadWishes();
-            if (!list.length) { wall.style.display = 'none'; return; }
-            wall.style.display = 'flex';
-            wall.innerHTML = `<div class="wishes-wall-title">✦ Những Lời Chúc Yêu Thương ✦</div>`;
-            [...list].reverse().forEach(w => {
-                const card = document.createElement('div');
-                card.className = 'wish-card';
-                card.innerHTML = `
-                    <div class="wish-card-name">${escHtml(w.name)}</div>
-                    <div class="wish-card-msg">${escHtml(w.msg)}</div>
-                    <div class="wish-card-date">${w.date}</div>
-                `;
-                wall.appendChild(card);
-            });
+            if (!wall) return;
+            try {
+                const r = await fetch(`${DB_URL}/wishes.json`);
+                const data = await r.json();
+                if (!data) { wall.style.display = 'none'; return; }
+                const list = Object.values(data).sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+                if (!list.length) { wall.style.display = 'none'; return; }
+                wall.style.display = 'flex';
+                wall.innerHTML = `<div class="wishes-wall-title">✦ Những Lời Chúc Yêu Thương ✦</div>`;
+                [...list].reverse().forEach(w => {
+                    const card = document.createElement('div');
+                    card.className = 'wish-card';
+                    card.innerHTML = `
+                        <div class="wish-card-name">${escHtml(w.name)}</div>
+                        <div class="wish-card-msg">${escHtml(w.msg)}</div>
+                        <div class="wish-card-date">${w.date}</div>
+                    `;
+                    wall.appendChild(card);
+                });
+            } catch { wall.style.display = 'none'; }
         }
 
         async function submitWish() {
@@ -2655,6 +2650,7 @@
             const msgEl = document.getElementById('wf-msg');
             const btn = document.getElementById('wf-submit');
             const success = document.getElementById('wf-success');
+            if (!nameEl || !msgEl) return;
             const name = nameEl.value.trim();
             const msg = msgEl.value.trim();
             if (!name || !msg) {
@@ -2665,15 +2661,15 @@
             nameEl.style.borderColor = '';
             msgEl.style.borderColor = '';
             if (btn) { btn.disabled = true; btn.textContent = '✦ Đang gửi… ✦'; }
-            const wishes = await loadWishes();
-            const now = new Date();
-            wishes.push({ name, msg, date: formatDateTime(now) });
-            await saveWishes(wishes);
+            await fetch(`${DB_URL}/wishes.json`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, msg, date: formatDateTime(new Date()) })
+            });
             nameEl.value = '';
             msgEl.value = '';
             if (btn) { btn.disabled = false; btn.textContent = '✦ Gửi Lời Chúc ✦'; }
-            success.style.display = 'block';
-            setTimeout(() => { success.style.display = 'none'; }, 3500);
+            if (success) { success.style.display = 'block'; setTimeout(() => { success.style.display = 'none'; }, 3500); }
             await renderWishes();
         }
 
