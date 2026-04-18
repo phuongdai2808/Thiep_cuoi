@@ -2304,7 +2304,8 @@
     </section>
 
     <!-- ═══════════════ WISHES ═══════════════ -->
-    <section class="wishes-section reveal" style="background:linear-gradient(160deg,#fff5f7 0%,#fdf0f4 50%,#fce8ed 100%);">
+    <section class="wishes-section reveal"
+        style="background:linear-gradient(160deg,#fff5f7 0%,#fdf0f4 50%,#fce8ed 100%);">
         <p class="section-title">✦ Lời Chúc ✦</p>
         <h2 class="section-heading">Gửi Lời Chúc Đến Đôi Uyên Ương</h2>
         <div class="thin-line"></div>
@@ -2315,12 +2316,13 @@
         </p>
 
         <!-- Wishes button -->
-        <div class="reveal" style="display:flex;flex-direction:column;align-items:center;gap:20px;max-width:420px;width:100%;">
+        <div class="reveal"
+            style="display:flex;flex-direction:column;align-items:center;gap:20px;max-width:420px;width:100%;">
             <!-- decorative heart -->
-            <div style="font-size:32px;animation:heartbeat 2s ease infinite;display:inline-block;color:var(--rose)">♡</div>
+            <div style="font-size:32px;animation:heartbeat 2s ease infinite;display:inline-block;color:var(--rose)">♡
+            </div>
 
-            <a href="wishes.html"
-               style="display:inline-flex;align-items:center;justify-content:center;gap:10px;
+            <a href="wishes.html" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;
                       padding:16px 32px;
                       width:100%;max-width:360px;
                       background:linear-gradient(135deg,var(--deeprose),var(--rose));
@@ -2330,8 +2332,8 @@
                       white-space:nowrap;
                       box-shadow:0 6px 28px rgba(155,58,77,.3);
                       transition:all .3s;animation:pulseGold 2.5s ease infinite;"
-               onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 36px rgba(155,58,77,.4)'"
-               onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 28px rgba(155,58,77,.3)'">
+                onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 36px rgba(155,58,77,.4)'"
+                onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 28px rgba(155,58,77,.3)'">
                 🌸 &nbsp; Gửi Lời Chúc &amp; Mừng Cưới
             </a>
         </div>
@@ -2607,21 +2609,32 @@
         function tryPlayMusic() {
             music.play().catch(() => { });
         }
-        /* ═══ WISHES ═══ */
-        const WISHES_KEY = 'thiep_cuoi_wishes_huyentran_anhkiet';
+        /* ═══ WISHES (shared storage — đồng bộ với wishes.html & admin.html) ═══ */
+        const WISHES_KEY = 'wishes_huyentran_anhkiet_2026';
 
-        function loadWishes() {
-            try { return JSON.parse(localStorage.getItem(WISHES_KEY)) || []; }
-            catch { return []; }
+        async function loadWishes() {
+            try {
+                const r = await window.storage.get(WISHES_KEY, true);
+                return r ? JSON.parse(r.value) : [];
+            } catch { return []; }
         }
 
-        function saveWishes(list) {
-            localStorage.setItem(WISHES_KEY, JSON.stringify(list));
+        async function saveWishes(list) {
+            await window.storage.set(WISHES_KEY, JSON.stringify(list), true);
         }
 
-        function renderWishes() {
+        function escHtml(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/\n/g, '<br>');
+        }
+
+        function formatDateTime(date) {
+            const pad = n => String(n).padStart(2, '0');
+            return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} · ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+        }
+
+        async function renderWishes() {
             const wall = document.getElementById('wishes-wall');
-            const list = loadWishes();
+            const list = await loadWishes();
             if (!list.length) { wall.style.display = 'none'; return; }
             wall.style.display = 'flex';
             wall.innerHTML = `<div class="wishes-wall-title">✦ Những Lời Chúc Yêu Thương ✦</div>`;
@@ -2637,13 +2650,10 @@
             });
         }
 
-        function escHtml(s) {
-            return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g,'<br>');
-        }
-
-        function submitWish() {
+        async function submitWish() {
             const nameEl = document.getElementById('wf-name');
             const msgEl = document.getElementById('wf-msg');
+            const btn = document.getElementById('wf-submit');
             const success = document.getElementById('wf-success');
             const name = nameEl.value.trim();
             const msg = msgEl.value.trim();
@@ -2654,18 +2664,17 @@
             }
             nameEl.style.borderColor = '';
             msgEl.style.borderColor = '';
-            const wishes = loadWishes();
+            if (btn) { btn.disabled = true; btn.textContent = '✦ Đang gửi… ✦'; }
+            const wishes = await loadWishes();
             const now = new Date();
-            wishes.push({
-                name, msg,
-                date: now.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' })
-            });
-            saveWishes(wishes);
+            wishes.push({ name, msg, date: formatDateTime(now) });
+            await saveWishes(wishes);
             nameEl.value = '';
             msgEl.value = '';
+            if (btn) { btn.disabled = false; btn.textContent = '✦ Gửi Lời Chúc ✦'; }
             success.style.display = 'block';
             setTimeout(() => { success.style.display = 'none'; }, 3500);
-            renderWishes();
+            await renderWishes();
         }
 
         renderWishes();

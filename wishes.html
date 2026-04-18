@@ -12,14 +12,20 @@
   <!-- ── EmailJS SDK ── -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
-    const EMAILJS_PUBLIC_KEY  = "Ajs9xgllMUa951umB";
-    const EMAILJS_SERVICE_ID  = "service_1h078ds";
+    const EMAILJS_PUBLIC_KEY = "Ajs9xgllMUa951umB";
+    const EMAILJS_SERVICE_ID = "service_1h078ds";
     const EMAILJS_TEMPLATE_ID = "template_b8z35r6";
     (function () { emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })();
   </script>
 
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
 
     :root {
       --rose: #c8697a;
@@ -31,7 +37,9 @@
       --text: #4a2030;
     }
 
-    html { scroll-behavior: smooth }
+    html {
+      scroll-behavior: smooth
+    }
 
     body {
       background: var(--cream);
@@ -60,22 +68,100 @@
     }
 
     @keyframes petalFall {
-      0%   { top: -20px; transform: rotate(0deg) translateX(0); opacity: 0 }
-      10%  { opacity: 1 }
-      90%  { opacity: .8 }
-      100% { top: 110vh; transform: rotate(720deg) translateX(60px); opacity: 0 }
+      0% {
+        top: -20px;
+        transform: rotate(0deg) translateX(0);
+        opacity: 0
+      }
+
+      10% {
+        opacity: 1
+      }
+
+      90% {
+        opacity: .8
+      }
+
+      100% {
+        top: 110vh;
+        transform: rotate(720deg) translateX(60px);
+        opacity: 0
+      }
     }
 
-    @keyframes fadeDown { from { opacity:0; transform:translateY(-20px) } to { opacity:1; transform:translateY(0) } }
-    @keyframes fadeUp   { from { opacity:0; transform:translateY(24px)  } to { opacity:1; transform:translateY(0) } }
-    @keyframes fadeIn   { from { opacity:0 } to { opacity:1 } }
-    @keyframes shimmer  { 0% { background-position:-200% center } 100% { background-position:200% center } }
-    @keyframes floatY   { 0%,100% { transform:translateY(0) } 50% { transform:translateY(-8px) } }
-    @keyframes pulseGold {
-      0%,100% { box-shadow:0 0 0 0 rgba(201,169,110,.4) }
-      50%      { box-shadow:0 0 0 10px rgba(201,169,110,0) }
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
     }
-    @keyframes spin { to { transform:rotate(360deg) } }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% center
+      }
+
+      100% {
+        background-position: 200% center
+      }
+    }
+
+    @keyframes floatY {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    @keyframes pulseGold {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(201, 169, 110, .4)
+      }
+
+      50% {
+        box-shadow: 0 0 0 10px rgba(201, 169, 110, 0)
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
 
     /* ── HEADER ── */
     .page-header {
@@ -90,243 +176,526 @@
     .page-header::after {
       content: '';
       position: absolute;
-      bottom: 0; left: 0; right: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
       height: 60px;
       background: linear-gradient(to bottom, transparent, var(--cream));
     }
 
-    .corner { position:absolute; width:160px; opacity:.45; pointer-events:none }
-    .corner-tl { top:-8px; left:-8px }
-    .corner-tr { top:-8px; right:-8px; transform:scaleX(-1) }
+    .corner {
+      position: absolute;
+      width: 160px;
+      opacity: .45;
+      pointer-events: none
+    }
+
+    .corner-tl {
+      top: -8px;
+      left: -8px
+    }
+
+    .corner-tr {
+      top: -8px;
+      right: -8px;
+      transform: scaleX(-1)
+    }
 
     .header-badge {
-      font-family:'EB Garamond',serif;
-      font-size:10px; letter-spacing:4px; text-transform:uppercase;
-      color:var(--rose); border:1px solid var(--blush);
-      padding:5px 20px; border-radius:30px; display:inline-block;
-      margin-bottom:24px; animation:fadeDown .8s ease both;
+      font-family: 'EB Garamond', serif;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--rose);
+      border: 1px solid var(--blush);
+      padding: 5px 20px;
+      border-radius: 30px;
+      display: inline-block;
+      margin-bottom: 24px;
+      animation: fadeDown .8s ease both;
     }
 
     .header-names {
-      font-family:'Great Vibes',cursive;
-      font-size:clamp(40px,9vw,72px);
-      background:linear-gradient(135deg,#9b3a4d 0%,#c8697a 40%,#9b3a4d 60%,#c9a96e 100%);
-      background-size:200% auto;
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-      animation:shimmer 3s linear infinite, fadeDown .9s .1s ease both;
-      filter:drop-shadow(0 2px 12px rgba(155,58,77,.15)); line-height:1.1;
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(40px, 9vw, 72px);
+      background: linear-gradient(135deg, #9b3a4d 0%, #c8697a 40%, #9b3a4d 60%, #c9a96e 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite, fadeDown .9s .1s ease both;
+      filter: drop-shadow(0 2px 12px rgba(155, 58, 77, .15));
+      line-height: 1.1;
     }
 
     .header-date {
-      font-family:'Cormorant Garamond',serif;
-      font-size:12px; letter-spacing:5px; text-transform:uppercase;
-      color:var(--rose); margin-top:8px; opacity:.8;
-      animation:fadeDown .9s .2s ease both;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-top: 8px;
+      opacity: .8;
+      animation: fadeDown .9s .2s ease both;
     }
 
     .header-divider {
-      display:flex; align-items:center; gap:14px;
-      margin:20px auto 0; width:fit-content;
-      animation:fadeDown .9s .3s ease both;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 20px auto 0;
+      width: fit-content;
+      animation: fadeDown .9s .3s ease both;
     }
 
-    .header-divider span { width:60px; height:1px; background:linear-gradient(to right,transparent,var(--blush)) }
-    .header-divider span:last-child { transform:scaleX(-1) }
-    .header-divider .diamond { width:7px; height:7px; background:var(--gold); transform:rotate(45deg) }
+    .header-divider span {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--blush))
+    }
+
+    .header-divider span:last-child {
+      transform: scaleX(-1)
+    }
+
+    .header-divider .diamond {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      transform: rotate(45deg)
+    }
 
     .back-link {
-      display:inline-flex; align-items:center; gap:8px;
-      position:absolute; top:20px; left:20px; z-index:10;
-      font-family:'Cormorant Garamond',serif;
-      font-size:13px; letter-spacing:2px; color:var(--rose);
-      text-decoration:none; padding:6px 16px;
-      border:1px solid var(--blush); border-radius:20px;
-      background:rgba(255,255,255,.7); backdrop-filter:blur(4px);
-      transition:all .3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: var(--rose);
+      text-decoration: none;
+      padding: 6px 16px;
+      border: 1px solid var(--blush);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .7);
+      backdrop-filter: blur(4px);
+      transition: all .3s;
     }
-    .back-link:hover { background:var(--rose); color:#fff; border-color:var(--rose) }
+
+    .back-link:hover {
+      background: var(--rose);
+      color: #fff;
+      border-color: var(--rose)
+    }
 
     /* ── MAIN ── */
-    main { max-width:600px; margin:0 auto; padding:0 20px 80px }
+    main {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px 80px
+    }
 
     /* ── WISHES SECTION ── */
-    .wishes-section { padding:48px 0 0 }
+    .wishes-section {
+      padding: 48px 0 0
+    }
 
     .section-title {
-      font-family:'Cormorant Garamond',serif;
-      font-size:11px; letter-spacing:5px; text-transform:uppercase;
-      color:var(--gold); text-align:center; margin-bottom:10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 10px;
     }
 
     .section-heading {
-      font-family:'Great Vibes',cursive;
-      font-size:clamp(32px,7vw,48px); color:var(--deeprose);
-      text-align:center; margin-bottom:16px; line-height:1.2;
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(32px, 7vw, 48px);
+      color: var(--deeprose);
+      text-align: center;
+      margin-bottom: 16px;
+      line-height: 1.2;
     }
 
     .thin-line {
-      width:100px; height:1px;
-      background:linear-gradient(to right,transparent,var(--blush),transparent);
-      margin:0 auto 32px;
+      width: 100px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--blush), transparent);
+      margin: 0 auto 32px;
     }
 
     .wishes-intro {
-      font-family:'Cormorant Garamond',serif;
-      font-size:16px; font-style:italic; color:var(--rose);
-      text-align:center; line-height:2; margin-bottom:32px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-style: italic;
+      color: var(--rose);
+      text-align: center;
+      line-height: 2;
+      margin-bottom: 32px;
     }
 
     .wishes-form-wrap {
-      background:rgba(255,255,255,.85);
-      border:1px solid var(--blush); border-radius:16px;
-      padding:32px 28px;
-      box-shadow:0 8px 40px rgba(200,105,122,.08);
-      backdrop-filter:blur(4px);
+      background: rgba(255, 255, 255, .85);
+      border: 1px solid var(--blush);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 40px rgba(200, 105, 122, .08);
+      backdrop-filter: blur(4px);
     }
 
     .wf-label {
-      display:block;
-      font-family:'Cormorant Garamond',serif;
-      font-size:11px; letter-spacing:3px; text-transform:uppercase;
-      color:var(--gold); margin-bottom:8px;
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
     }
 
-    .wf-input, .wf-textarea {
-      width:100%; padding:12px 16px;
-      border:1px solid var(--blush); border-radius:8px;
-      font-family:'EB Garamond',serif; font-size:15px; color:var(--text);
-      background:#fffafb; outline:none;
-      transition:border-color .3s, box-shadow .3s;
-      margin-bottom:20px;
+    .wf-input,
+    .wf-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--blush);
+      border-radius: 8px;
+      font-family: 'EB Garamond', serif;
+      font-size: 15px;
+      color: var(--text);
+      background: #fffafb;
+      outline: none;
+      transition: border-color .3s, box-shadow .3s;
+      margin-bottom: 20px;
     }
-    .wf-input:focus, .wf-textarea:focus {
-      border-color:var(--rose);
-      box-shadow:0 0 0 3px rgba(242,196,206,.3);
+
+    .wf-input:focus,
+    .wf-textarea:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(242, 196, 206, .3);
     }
-    .wf-textarea { resize:vertical; min-height:110px }
+
+    .wf-textarea {
+      resize: vertical;
+      min-height: 110px
+    }
 
     .wf-btn {
-      width:100%; padding:14px;
-      background:linear-gradient(135deg,var(--deeprose),var(--rose));
-      color:#fff; border:none; border-radius:50px;
-      font-family:'Cormorant Garamond',serif;
-      font-size:14px; letter-spacing:3px; text-transform:uppercase;
-      cursor:pointer; transition:opacity .3s, transform .2s, box-shadow .3s;
-      box-shadow:0 4px 20px rgba(155,58,77,.25);
-      animation:pulseGold 2.5s ease infinite;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--deeprose), var(--rose));
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity .3s, transform .2s, box-shadow .3s;
+      box-shadow: 0 4px 20px rgba(155, 58, 77, .25);
+      animation: pulseGold 2.5s ease infinite;
     }
-    .wf-btn:hover  { opacity:.9; transform:translateY(-2px); box-shadow:0 8px 28px rgba(155,58,77,.3) }
-    .wf-btn:active { transform:translateY(0) }
-    .wf-btn:disabled { opacity:.6; cursor:not-allowed; transform:none }
+
+    .wf-btn:hover {
+      opacity: .9;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(155, 58, 77, .3)
+    }
+
+    .wf-btn:active {
+      transform: translateY(0)
+    }
+
+    .wf-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none
+    }
 
     .wf-success {
-      display:none; text-align:center; padding:16px 0 4px;
-      font-family:'Cormorant Garamond',serif;
-      font-size:16px; font-style:italic; color:var(--rose);
-      animation:fadeUp .5s ease both;
+      display: none;
+      text-align: center;
+      padding: 16px 0 4px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-style: italic;
+      color: var(--rose);
+      animation: fadeUp .5s ease both;
     }
 
     .wf-error {
-      display:none; text-align:center; padding:12px 0 4px;
-      font-family:'Cormorant Garamond',serif;
-      font-size:14px; font-style:italic; color:#c0392b;
-      animation:fadeUp .5s ease both;
+      display: none;
+      text-align: center;
+      padding: 12px 0 4px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: #c0392b;
+      animation: fadeUp .5s ease both;
     }
 
     /* ── QR SECTION ── */
     .qr-section {
-      margin-top:48px;
-      background:linear-gradient(160deg,#fff0f4 0%,#fce8ed 60%,#fdf6f0 100%);
-      border:1px solid var(--blush); border-radius:20px;
-      padding:36px 28px; text-align:center;
-      position:relative; overflow:hidden;
-      box-shadow:0 8px 40px rgba(200,105,122,.1);
+      margin-top: 48px;
+      background: linear-gradient(160deg, #fff0f4 0%, #fce8ed 60%, #fdf6f0 100%);
+      border: 1px solid var(--blush);
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(200, 105, 122, .1);
     }
-    .qr-section::before { content:'✦'; position:absolute; top:14px; left:50%; transform:translateX(-50%); color:var(--gold); font-size:13px }
-    .qr-section::after  { content:'✦'; position:absolute; bottom:14px; left:50%; transform:translateX(-50%); color:var(--gold); font-size:13px }
 
-    .qr-title  { font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:5px; text-transform:uppercase; color:var(--gold); margin-bottom:8px }
-    .qr-heading { font-family:'Great Vibes',cursive; font-size:clamp(28px,6vw,40px); color:var(--deeprose); margin-bottom:6px }
-    .qr-sub { font-family:'Cormorant Garamond',serif; font-size:14px; font-style:italic; color:var(--rose); line-height:1.9; margin-bottom:24px }
+    .qr-section::before {
+      content: '✦';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--gold);
+      font-size: 13px
+    }
+
+    .qr-section::after {
+      content: '✦';
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--gold);
+      font-size: 13px
+    }
+
+    .qr-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px
+    }
+
+    .qr-heading {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(28px, 6vw, 40px);
+      color: var(--deeprose);
+      margin-bottom: 6px
+    }
+
+    .qr-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--rose);
+      line-height: 1.9;
+      margin-bottom: 24px
+    }
 
     .qr-frame {
-      display:inline-block; position:relative;
-      background:#fff; border-radius:16px; padding:16px;
-      box-shadow:0 4px 32px rgba(155,58,77,.15), 0 0 0 1px rgba(242,196,206,.6);
-      animation:floatY 4s ease-in-out infinite;
+      display: inline-block;
+      position: relative;
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 32px rgba(155, 58, 77, .15), 0 0 0 1px rgba(242, 196, 206, .6);
+      animation: floatY 4s ease-in-out infinite;
     }
-    .qr-frame::before { content:''; position:absolute; top:6px; left:6px; width:24px; height:24px; border-color:var(--gold); border-style:solid; border-width:2px 0 0 2px; border-radius:4px 0 0 0 }
-    .qr-frame::after  { content:''; position:absolute; bottom:6px; right:6px; width:24px; height:24px; border-color:var(--gold); border-style:solid; border-width:0 2px 2px 0; border-radius:0 0 4px 4px }
 
-    .qr-img { width:200px; height:200px; object-fit:contain; display:block; border-radius:8px }
-    .qr-name    { font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:600; letter-spacing:2px; color:var(--deeprose); margin-top:18px; text-transform:uppercase }
-    .qr-account { font-family:'EB Garamond',serif; font-size:16px; color:var(--rose); letter-spacing:2px; margin-top:4px }
-    .qr-note    { font-family:'Cormorant Garamond',serif; font-size:12px; font-style:italic; color:#b08090; margin-top:12px; letter-spacing:1px }
+    .qr-frame::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 24px;
+      height: 24px;
+      border-color: var(--gold);
+      border-style: solid;
+      border-width: 2px 0 0 2px;
+      border-radius: 4px 0 0 0
+    }
 
-    .qr-corner { position:absolute; width:80px; opacity:.3; pointer-events:none }
-    .qr-corner-tl { top:0; left:0 }
-    .qr-corner-br { bottom:0; right:0; transform:scale(-1) }
+    .qr-frame::after {
+      content: '';
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 24px;
+      height: 24px;
+      border-color: var(--gold);
+      border-style: solid;
+      border-width: 0 2px 2px 0;
+      border-radius: 0 0 4px 4px
+    }
+
+    .qr-img {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      display: block;
+      border-radius: 8px
+    }
+
+    .qr-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--deeprose);
+      margin-top: 18px;
+      text-transform: uppercase
+    }
+
+    .qr-account {
+      font-family: 'EB Garamond', serif;
+      font-size: 16px;
+      color: var(--rose);
+      letter-spacing: 2px;
+      margin-top: 4px
+    }
+
+    .qr-note {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      font-style: italic;
+      color: #b08090;
+      margin-top: 12px;
+      letter-spacing: 1px
+    }
+
+    .qr-corner {
+      position: absolute;
+      width: 80px;
+      opacity: .3;
+      pointer-events: none
+    }
+
+    .qr-corner-tl {
+      top: 0;
+      left: 0
+    }
+
+    .qr-corner-br {
+      bottom: 0;
+      right: 0;
+      transform: scale(-1)
+    }
 
     /* ── WISHES WALL ── */
     .wishes-wall {
-      margin-top:48px;
-      display:none;
-      flex-direction:column;
-      gap:16px;
+      margin-top: 48px;
+      display: none;
+      flex-direction: column;
+      gap: 16px;
     }
 
     .wishes-wall-title {
-      font-family:'Cormorant Garamond',serif;
-      font-size:11px; letter-spacing:4px; text-transform:uppercase;
-      color:var(--gold); text-align:center; margin-bottom:8px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 8px;
     }
 
     .wish-card {
-      background:#fff; border:1px solid #f2dde4;
-      border-radius:14px; padding:18px 20px;
-      box-shadow:0 4px 16px rgba(200,105,122,.06);
-      animation:fadeUp .5s ease both;
-      position:relative;
+      background: #fff;
+      border: 1px solid #f2dde4;
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 16px rgba(200, 105, 122, .06);
+      animation: fadeUp .5s ease both;
+      position: relative;
     }
+
     .wish-card::before {
-      content:'❝'; position:absolute; top:10px; left:16px;
-      font-size:28px; color:var(--blush); line-height:1; font-family:Georgia,serif;
+      content: '❝';
+      position: absolute;
+      top: 10px;
+      left: 16px;
+      font-size: 28px;
+      color: var(--blush);
+      line-height: 1;
+      font-family: Georgia, serif;
     }
+
     .wish-card-name {
-      font-family:'Cormorant Garamond',serif;
-      font-size:13px; letter-spacing:2px; text-transform:uppercase;
-      color:var(--gold); margin-bottom:8px; padding-left:28px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+      padding-left: 28px;
     }
-    .wish-card-msg  { font-family:'EB Garamond',serif; font-size:15px; color:var(--text); line-height:1.8; padding-left:28px }
-    .wish-card-date { font-size:11px; color:#c0a0a8; margin-top:10px; padding-left:28px; letter-spacing:1px }
+
+    .wish-card-msg {
+      font-family: 'EB Garamond', serif;
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.8;
+      padding-left: 28px
+    }
+
+    .wish-card-date {
+      font-size: 11px;
+      color: #c0a0a8;
+      margin-top: 10px;
+      padding-left: 28px;
+      letter-spacing: 1px
+    }
 
     /* Loading spinner */
     .wishes-loading {
-      text-align:center; padding:32px 0;
-      font-family:'Cormorant Garamond',serif;
-      font-size:14px; font-style:italic; color:var(--rose);
-      display:none;
+      text-align: center;
+      padding: 32px 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--rose);
+      display: none;
     }
+
     .wishes-loading::before {
-      content:'';
-      display:inline-block;
-      width:20px; height:20px;
-      border:2px solid var(--blush);
-      border-top-color:var(--rose);
-      border-radius:50%;
-      animation:spin 0.8s linear infinite;
-      margin-right:10px;
-      vertical-align:middle;
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--blush);
+      border-top-color: var(--rose);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 10px;
+      vertical-align: middle;
     }
 
     /* ── FOOTER ── */
     .page-footer {
-      text-align:center; padding:32px 20px 48px;
-      font-size:11px; letter-spacing:3px; color:var(--blush); text-transform:uppercase;
+      text-align: center;
+      padding: 32px 20px 48px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--blush);
+      text-transform: uppercase;
     }
 
-    .reveal { opacity:0; transform:translateY(28px); transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1) }
-    .reveal.visible { opacity:1; transform:translateY(0) }
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .9s cubic-bezier(.22, 1, .36, 1), transform .9s cubic-bezier(.22, 1, .36, 1)
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0)
+    }
   </style>
 </head>
 
@@ -381,7 +750,8 @@
         <label class="wf-label" for="wf-name">Tên của bạn</label>
         <input class="wf-input" id="wf-name" type="text" placeholder="Nguyễn Văn A…" maxlength="60" autocomplete="off">
         <label class="wf-label" for="wf-msg">Lời chúc</label>
-        <textarea class="wf-textarea" id="wf-msg" placeholder="Chúc hai bạn trăm năm hạnh phúc, mãi yêu thương nhau…" maxlength="400"></textarea>
+        <textarea class="wf-textarea" id="wf-msg" placeholder="Chúc hai bạn trăm năm hạnh phúc, mãi yêu thương nhau…"
+          maxlength="400"></textarea>
         <button class="wf-btn" id="wf-btn" onclick="submitWish()">✦ Gửi Lời Chúc ✦</button>
         <div class="wf-success" id="wf-success">🌸 Cảm ơn bạn! Lời chúc của bạn đã được ghi nhận ♡</div>
         <div class="wf-error" id="wf-error">⚠️ Không thể gửi email lúc này. Lời chúc vẫn được lưu lại.</div>
@@ -414,7 +784,8 @@
       </p>
 
       <div class="qr-frame">
-        <img class="qr-img" src="https://phuongdai2808.github.io/Thiep_cuoi/Qr.png" alt="QR Chuyển Khoản – Phan Thị Huyền Trân">
+        <img class="qr-img" src="https://phuongdai2808.github.io/Thiep_cuoi/Qr.png"
+          alt="QR Chuyển Khoản – Phan Thị Huyền Trân">
       </div>
 
       <div class="qr-name">Phan Thị Huyền Trân</div>
@@ -437,13 +808,13 @@
     function spawnPetal() {
       const p = document.createElement('div'); p.className = 'petal';
       const c = ['#f2c4ce', '#fce8ed', '#e8aab8', '#f9d5de', '#fdf0f4'];
-      p.style.cssText = `left:${Math.random()*100}vw;width:${8+Math.random()*10}px;height:${10+Math.random()*12}px;background:${c[Math.floor(Math.random()*c.length)]};animation-duration:${5+Math.random()*5}s;animation-delay:${Math.random()}s;opacity:${.4+Math.random()*.5};`;
+      p.style.cssText = `left:${Math.random() * 100}vw;width:${8 + Math.random() * 10}px;height:${10 + Math.random() * 12}px;background:${c[Math.floor(Math.random() * c.length)]};animation-duration:${5 + Math.random() * 5}s;animation-delay:${Math.random()}s;opacity:${.4 + Math.random() * .5};`;
       document.body.appendChild(p); setTimeout(() => p.remove(), 11000);
     }
     setInterval(spawnPetal, 900);
 
     /* ── Scroll reveal ── */
-    const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') }), { threshold:.1 });
+    const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') }), { threshold: .1 });
     document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
 
     /* ════════════════════════════════════════════════════
@@ -466,20 +837,20 @@
     }
 
     function escHtml(s) {
-      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g,'<br>');
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/\n/g, '<br>');
     }
 
     function formatDateTime(date) {
-      const pad = n => String(n).padStart(2,'0');
-      return `${pad(date.getDate())}/${pad(date.getMonth()+1)}/${date.getFullYear()} · ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+      const pad = n => String(n).padStart(2, '0');
+      return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} · ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
     }
 
     async function renderWishes() {
-      const wall    = document.getElementById('wishes-wall');
+      const wall = document.getElementById('wishes-wall');
       const loading = document.getElementById('wishes-loading');
 
       loading.style.display = 'block';
-      wall.style.display    = 'none';
+      wall.style.display = 'none';
 
       const list = await loadSharedWishes();
 
@@ -522,11 +893,11 @@
       const eEl = document.getElementById('wf-error');
 
       const name = nEl.value.trim();
-      const msg  = mEl.value.trim();
+      const msg = mEl.value.trim();
 
       if (!name || !msg) {
         nEl.style.borderColor = !name ? 'var(--rose)' : '';
-        mEl.style.borderColor = !msg  ? 'var(--rose)' : '';
+        mEl.style.borderColor = !msg ? 'var(--rose)' : '';
         return;
       }
       nEl.style.borderColor = '';
@@ -536,7 +907,7 @@
       btn.textContent = '✦ Đang gửi… ✦';
       eEl.style.display = 'none';
 
-      const now      = new Date();
+      const now = new Date();
       const datetime = formatDateTime(now);
 
       // Lưu vào shared storage
