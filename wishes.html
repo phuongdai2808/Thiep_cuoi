@@ -8,6 +8,21 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap"
     rel="stylesheet">
+
+  <!-- ── EmailJS SDK ── -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    // ════════════════════════════════════════════════════════════
+    //  CẤU HÌNH EMAILJS – Điền 3 giá trị bên dưới sau khi đăng ký
+    //  Hướng dẫn: xem phần COMMENT cuối file hoặc README
+    // ════════════════════════════════════════════════════════════
+    const EMAILJS_PUBLIC_KEY  = "Ajs9xgllMUa951umB";
+    const EMAILJS_SERVICE_ID  = "service_1h078ds";
+    const EMAILJS_TEMPLATE_ID = "template_b8z35r6";
+
+    (function () { emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })();
+  </script>
+
   <style>
     *,
     *::before,
@@ -421,6 +436,12 @@
       transform: translateY(0)
     }
 
+    .wf-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .wf-success {
       display: none;
       text-align: center;
@@ -429,6 +450,17 @@
       font-size: 16px;
       font-style: italic;
       color: var(--rose);
+      animation: fadeUp .5s ease both;
+    }
+
+    .wf-error {
+      display: none;
+      text-align: center;
+      padding: 12px 0 4px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: #c0392b;
       animation: fadeUp .5s ease both;
     }
 
@@ -670,7 +702,7 @@
 <body>
 
   <header class="page-header">
-    <a class="back-link" href="test.html">← Thiệp Cưới</a>
+    <a class="back-link" href="Index.html">← Thiệp Cưới</a>
 
     <svg class="corner corner-tl" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g stroke="#c8697a" stroke-width="1.2" fill="none">
@@ -719,9 +751,12 @@
         <label class="wf-label" for="wf-msg">Lời chúc</label>
         <textarea class="wf-textarea" id="wf-msg" placeholder="Chúc hai bạn trăm năm hạnh phúc, mãi yêu thương nhau…"
           maxlength="400"></textarea>
-        <button class="wf-btn" onclick="submitWish()">✦ Gửi Lời Chúc ✦</button>
+        <button class="wf-btn" id="wf-btn" onclick="submitWish()">✦ Gửi Lời Chúc ✦</button>
         <div class="wf-success" id="wf-success">
           🌸 Cảm ơn bạn! Lời chúc của bạn đã được ghi nhận ♡
+        </div>
+        <div class="wf-error" id="wf-error">
+          ⚠️ Không thể gửi email lúc này. Lời chúc vẫn được lưu lại.
         </div>
       </div>
     </section>
@@ -754,7 +789,7 @@
       </p>
 
       <div class="qr-frame">
-        <img class="qr-img" src="https://ntricao.github.io/test/Qr.png" alt="QR Chuyển Khoản – Phan Thị Huyền Trân">
+        <img class="qr-img" src="https://phuongdai2808.github.io/Thiep_cuoi/Qr.png" alt="QR Chuyển Khoản – Phan Thị Huyền Trân">
       </div>
 
       <div class="qr-name">Phan Thị Huyền Trân</div>
@@ -805,18 +840,71 @@
       });
     }
 
-    function submitWish() {
-      const n = document.getElementById('wf-name');
-      const m = document.getElementById('wf-msg');
-      const s = document.getElementById('wf-success');
-      const name = n.value.trim(), msg = m.value.trim();
-      if (!name || !msg) { n.style.borderColor = !name ? 'var(--rose)' : ''; m.style.borderColor = !msg ? 'var(--rose)' : ''; return; }
-      n.style.borderColor = ''; m.style.borderColor = '';
-      const wishes = loadWishes();
+    /* ── Format thời gian thực ── */
+    function formatDateTime(date) {
+      const pad = n => String(n).padStart(2, '0');
+      return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())} — ${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`;
+    }
+
+    /* ── Gửi email qua EmailJS ── */
+    async function sendEmail(name, msg, datetime) {
+      return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        sender_name: name,
+        wish_message: msg,
+        sent_at: datetime,
+      });
+    }
+
+    async function submitWish() {
+      const nEl = document.getElementById('wf-name');
+      const mEl = document.getElementById('wf-msg');
+      const btn = document.getElementById('wf-btn');
+      const sEl = document.getElementById('wf-success');
+      const eEl = document.getElementById('wf-error');
+
+      const name = nEl.value.trim();
+      const msg  = mEl.value.trim();
+
+      // Validate
+      if (!name || !msg) {
+        nEl.style.borderColor = !name ? 'var(--rose)' : '';
+        mEl.style.borderColor = !msg  ? 'var(--rose)' : '';
+        return;
+      }
+      nEl.style.borderColor = '';
+      mEl.style.borderColor = '';
+
+      // Lấy thời gian thực
       const now = new Date();
-      wishes.push({ name, msg, date: now.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }) });
-      saveWishes(wishes); n.value = ''; m.value = '';
-      s.style.display = 'block'; setTimeout(() => s.style.display = 'none', 3500);
+      const datetime = formatDateTime(now);
+      const dateShort = now.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+      // Lưu vào localStorage
+      const wishes = loadWishes();
+      wishes.push({ name, msg, date: `${dateShort} · ${datetime.split('—')[0].trim()}` });
+      saveWishes(wishes);
+
+      // Hiển thị UI loading
+      btn.disabled = true;
+      btn.textContent = '✦ Đang gửi… ✦';
+      eEl.style.display = 'none';
+
+      // Gửi email
+      try {
+        await sendEmail(name, msg, datetime);
+        sEl.style.display = 'block';
+        setTimeout(() => sEl.style.display = 'none', 4000);
+      } catch (err) {
+        console.error('EmailJS error:', err);
+        eEl.style.display = 'block';
+        setTimeout(() => eEl.style.display = 'none', 4000);
+      }
+
+      // Reset
+      nEl.value = '';
+      mEl.value = '';
+      btn.disabled = false;
+      btn.textContent = '✦ Gửi Lời Chúc ✦';
       renderWishes();
     }
 
