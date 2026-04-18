@@ -1642,6 +1642,186 @@
             color: rgba(201, 169, 110, .7);
         }
 
+        /* ── WISHES SECTION ── */
+        .wishes-section {
+            background: linear-gradient(160deg, #fff5f7 0%, #fdf0f4 50%, #fce8ed 100%);
+        }
+
+        .wishes-intro {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(14px, 3.5vw, 17px);
+            font-style: italic;
+            color: var(--rose);
+            text-align: center;
+            max-width: 440px;
+            line-height: 2;
+            margin-bottom: 40px;
+            opacity: .9;
+        }
+
+        .wishes-form-wrap {
+            width: 100%;
+            max-width: 480px;
+            background: #fff;
+            border: 1px solid #f2dde4;
+            border-radius: 20px;
+            padding: 32px 28px;
+            box-shadow: 0 8px 40px rgba(200, 105, 122, .08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wishes-form-wrap::before {
+            content: '♡';
+            position: absolute;
+            top: 14px;
+            right: 20px;
+            font-size: 22px;
+            color: var(--blush);
+            animation: heartbeat 2s ease infinite;
+        }
+
+        .wf-label {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .wf-input,
+        .wf-textarea {
+            width: 100%;
+            border: 1px solid #f0dde4;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-family: 'EB Garamond', serif;
+            font-size: 15px;
+            color: var(--text);
+            background: #fffafb;
+            outline: none;
+            transition: border-color .3s, box-shadow .3s;
+            margin-bottom: 20px;
+        }
+
+        .wf-input:focus,
+        .wf-textarea:focus {
+            border-color: var(--blush);
+            box-shadow: 0 0 0 3px rgba(242, 196, 206, .25);
+        }
+
+        .wf-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .wf-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--deeprose), var(--rose));
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity .3s, transform .2s, box-shadow .3s;
+            box-shadow: 0 4px 20px rgba(155, 58, 77, .25);
+            animation: pulseGold 2.5s ease infinite;
+        }
+
+        .wf-btn:hover {
+            opacity: .9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(155, 58, 77, .3);
+        }
+
+        .wf-btn:active {
+            transform: translateY(0);
+        }
+
+        .wf-success {
+            display: none;
+            text-align: center;
+            padding: 16px 0 4px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            font-style: italic;
+            color: var(--rose);
+            animation: fadeUp .5s ease both;
+        }
+
+        /* Wall of wishes */
+        .wishes-wall {
+            width: 100%;
+            max-width: 480px;
+            margin-top: 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .wishes-wall-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .wish-card {
+            background: #fff;
+            border: 1px solid #f2dde4;
+            border-radius: 14px;
+            padding: 18px 20px;
+            box-shadow: 0 4px 16px rgba(200, 105, 122, .06);
+            animation: fadeUp .5s ease both;
+            position: relative;
+        }
+
+        .wish-card::before {
+            content: '❝';
+            position: absolute;
+            top: 10px;
+            left: 16px;
+            font-size: 28px;
+            color: var(--blush);
+            line-height: 1;
+            font-family: Georgia, serif;
+        }
+
+        .wish-card-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+            padding-left: 28px;
+        }
+
+        .wish-card-msg {
+            font-family: 'EB Garamond', serif;
+            font-size: 15px;
+            color: var(--text);
+            line-height: 1.8;
+            padding-left: 28px;
+        }
+
+        .wish-card-date {
+            font-size: 11px;
+            color: #c0a0a8;
+            margin-top: 10px;
+            padding-left: 28px;
+            letter-spacing: 1px;
+        }
+
         /* Chặn hover/pointer-events khi overlay đang mở */
         body.overlay-active>*:not(#envelope-overlay) {
             pointer-events: none !important;
@@ -2123,6 +2303,38 @@
         </div>
     </section>
 
+    <!-- ═══════════════ WISHES ═══════════════ -->
+    <section class="wishes-section reveal" style="background:linear-gradient(160deg,#fff5f7 0%,#fdf0f4 50%,#fce8ed 100%);">
+        <p class="section-title">✦ Lời Chúc ✦</p>
+        <h2 class="section-heading">Gửi Lời Chúc Đến Đôi Uyên Ương</h2>
+        <div class="thin-line"></div>
+
+        <p class="wishes-intro reveal">
+            Nếu bạn không thể có mặt trong ngày trọng đại này,<br>
+            hãy để lại lời chúc — chúng tôi sẽ trân trọng mãi mãi 💌
+        </p>
+
+        <!-- Wishes button -->
+        <div class="reveal" style="display:flex;flex-direction:column;align-items:center;gap:20px;max-width:420px;width:100%;">
+            <!-- decorative heart -->
+            <div style="font-size:32px;animation:heartbeat 2s ease infinite;display:inline-block;color:var(--rose)">♡</div>
+
+            <a href="wishes.html"
+               style="display:inline-flex;align-items:center;gap:12px;
+                      padding:18px 44px;
+                      background:linear-gradient(135deg,var(--deeprose),var(--rose));
+                      color:#fff;text-decoration:none;border-radius:50px;
+                      font-family:'Cormorant Garamond',serif;font-size:15px;
+                      letter-spacing:3px;text-transform:uppercase;
+                      box-shadow:0 6px 28px rgba(155,58,77,.3);
+                      transition:all .3s;animation:pulseGold 2.5s ease infinite;"
+               onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 36px rgba(155,58,77,.4)'"
+               onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 28px rgba(155,58,77,.3)'">
+                🌸 &nbsp; Gửi Lời Chúc &amp; Mừng Cưới
+            </a>
+        </div>
+    </section>
+
     <!-- ═══════════════ CLOSING ═══════════════ -->
     <section class="closing-section reveal">
         <p class="section-title">✦ Chủ Hôn ✦</p>
@@ -2393,6 +2605,68 @@
         function tryPlayMusic() {
             music.play().catch(() => { });
         }
+        /* ═══ WISHES ═══ */
+        const WISHES_KEY = 'thiep_cuoi_wishes_huyentran_anhkiet';
+
+        function loadWishes() {
+            try { return JSON.parse(localStorage.getItem(WISHES_KEY)) || []; }
+            catch { return []; }
+        }
+
+        function saveWishes(list) {
+            localStorage.setItem(WISHES_KEY, JSON.stringify(list));
+        }
+
+        function renderWishes() {
+            const wall = document.getElementById('wishes-wall');
+            const list = loadWishes();
+            if (!list.length) { wall.style.display = 'none'; return; }
+            wall.style.display = 'flex';
+            wall.innerHTML = `<div class="wishes-wall-title">✦ Những Lời Chúc Yêu Thương ✦</div>`;
+            [...list].reverse().forEach(w => {
+                const card = document.createElement('div');
+                card.className = 'wish-card';
+                card.innerHTML = `
+                    <div class="wish-card-name">${escHtml(w.name)}</div>
+                    <div class="wish-card-msg">${escHtml(w.msg)}</div>
+                    <div class="wish-card-date">${w.date}</div>
+                `;
+                wall.appendChild(card);
+            });
+        }
+
+        function escHtml(s) {
+            return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g,'<br>');
+        }
+
+        function submitWish() {
+            const nameEl = document.getElementById('wf-name');
+            const msgEl = document.getElementById('wf-msg');
+            const success = document.getElementById('wf-success');
+            const name = nameEl.value.trim();
+            const msg = msgEl.value.trim();
+            if (!name || !msg) {
+                nameEl.style.borderColor = !name ? 'var(--rose)' : '';
+                msgEl.style.borderColor = !msg ? 'var(--rose)' : '';
+                return;
+            }
+            nameEl.style.borderColor = '';
+            msgEl.style.borderColor = '';
+            const wishes = loadWishes();
+            const now = new Date();
+            wishes.push({
+                name, msg,
+                date: now.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' })
+            });
+            saveWishes(wishes);
+            nameEl.value = '';
+            msgEl.value = '';
+            success.style.display = 'block';
+            setTimeout(() => { success.style.display = 'none'; }, 3500);
+            renderWishes();
+        }
+
+        renderWishes();
     </script>
 </body>
 
